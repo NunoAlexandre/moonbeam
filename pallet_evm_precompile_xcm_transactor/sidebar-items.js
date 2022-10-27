@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["Action",""]],"struct":[["XcmTransactorWrapper","A precompile to wrap the functionality from xcm transactor"]],"type":[["CurrencyIdOf",""],["TransactorOf",""]]});
+window.SIDEBAR_ITEMS = {"mod":[["v1","Precompile to xcm transactor runtime methods via the EVM"],["v2","Precompile to xcm transactor runtime methods via the EVM"]]};

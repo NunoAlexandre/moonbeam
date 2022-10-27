@@ -1,9 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `precompiles/pallet-democracy/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
-    <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pallet_evm_precompile_democracy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../pallet_evm_precompile_democracy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pallet_evm_precompile_democracy/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><div class="theme-picker hidden"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="22" height="22" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `precompiles/pallet-democracy/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../pallet_evm_precompile_democracy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../pallet_evm_precompile_democracy/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../pallet_evm_precompile_democracy/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -387,482 +382,389 @@
 <span id="382">382</span>
 <span id="383">383</span>
 <span id="384">384</span>
-<span id="385">385</span>
-<span id="386">386</span>
-<span id="387">387</span>
-<span id="388">388</span>
-<span id="389">389</span>
-<span id="390">390</span>
-<span id="391">391</span>
-<span id="392">392</span>
-<span id="393">393</span>
-<span id="394">394</span>
-<span id="395">395</span>
-<span id="396">396</span>
-<span id="397">397</span>
-<span id="398">398</span>
-<span id="399">399</span>
-<span id="400">400</span>
-<span id="401">401</span>
-<span id="402">402</span>
-<span id="403">403</span>
-<span id="404">404</span>
-<span id="405">405</span>
-<span id="406">406</span>
-<span id="407">407</span>
-<span id="408">408</span>
-<span id="409">409</span>
-<span id="410">410</span>
-<span id="411">411</span>
-<span id="412">412</span>
-<span id="413">413</span>
-<span id="414">414</span>
-<span id="415">415</span>
-<span id="416">416</span>
-<span id="417">417</span>
-<span id="418">418</span>
-<span id="419">419</span>
-<span id="420">420</span>
-<span id="421">421</span>
-<span id="422">422</span>
-<span id="423">423</span>
-<span id="424">424</span>
-<span id="425">425</span>
-<span id="426">426</span>
-<span id="427">427</span>
-<span id="428">428</span>
-<span id="429">429</span>
-<span id="430">430</span>
-</pre><pre class="rust"><code><span class="comment">// Copyright 2019-2022 PureStake Inc.</span>
-<span class="comment">// This file is part of Moonbeam.</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright 2019-2022 PureStake Inc.
+// This file is part of Moonbeam.
 
-<span class="comment">// Moonbeam is free software: you can redistribute it and/or modify</span>
-<span class="comment">// it under the terms of the GNU General Public License as published by</span>
-<span class="comment">// the Free Software Foundation, either version 3 of the License, or</span>
-<span class="comment">// (at your option) any later version.</span>
+// Moonbeam is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 
-<span class="comment">// Moonbeam is distributed in the hope that it will be useful,</span>
-<span class="comment">// but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="comment">// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="comment">// GNU General Public License for more details.</span>
+// Moonbeam is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 
-<span class="comment">// You should have received a copy of the GNU General Public License</span>
-<span class="comment">// along with Moonbeam.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+// You should have received a copy of the GNU General Public License
+// along with Moonbeam.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
-<span class="doccomment">//! Precompile to interact with pallet democracy through an evm precompile.</span>
+</span><span class="doccomment">//! Precompile to interact with pallet democracy through an evm precompile.
 
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">no_std</span>)]</span>
-<span class="attribute">#![<span class="ident">feature</span>(<span class="ident">assert_matches</span>)]</span>
+</span><span class="attribute">#![cfg_attr(not(feature = <span class="string">&quot;std&quot;</span>), no_std)]
+#![feature(assert_matches)]
 
-<span class="kw">use</span> <span class="ident">fp_evm</span>::{<span class="ident">PrecompileHandle</span>, <span class="ident">PrecompileOutput</span>};
-<span class="kw">use</span> <span class="ident">frame_support::dispatch</span>::{<span class="ident">Dispatchable</span>, <span class="ident">GetDispatchInfo</span>, <span class="ident">PostDispatchInfo</span>};
-<span class="kw">use</span> <span class="ident">frame_support::traits::Currency</span>;
-<span class="kw">use</span> <span class="ident">pallet_democracy</span>::{<span class="ident">AccountVote</span>, <span class="ident">Call</span> <span class="kw">as</span> <span class="ident">DemocracyCall</span>, <span class="ident">Vote</span>};
-<span class="kw">use</span> <span class="ident">pallet_evm</span>::{<span class="ident">AddressMapping</span>, <span class="ident">Precompile</span>};
-<span class="kw">use</span> <span class="ident">precompile_utils::prelude</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">sp_core</span>::{<span class="ident">H160</span>, <span class="ident">H256</span>, <span class="ident">U256</span>};
-<span class="kw">use</span> <span class="ident">sp_std</span>::{
-	<span class="ident">convert</span>::{<span class="ident">TryFrom</span>, <span class="ident">TryInto</span>},
-	<span class="ident">fmt::Debug</span>,
-	<span class="ident">marker::PhantomData</span>,
-	<span class="ident">vec::Vec</span>,
+</span><span class="kw">use </span>fp_evm::PrecompileHandle;
+<span class="kw">use </span>frame_support::dispatch::{Dispatchable, GetDispatchInfo, PostDispatchInfo};
+<span class="kw">use </span>frame_support::traits::{ConstU32, Currency};
+<span class="kw">use </span>pallet_democracy::{
+	AccountVote, Call <span class="kw">as </span>DemocracyCall, Conviction, ReferendumInfo, Vote, VoteThreshold,
+};
+<span class="kw">use </span>pallet_evm::AddressMapping;
+<span class="kw">use </span>precompile_utils::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>sp_core::{H160, H256, U256};
+<span class="kw">use </span>sp_runtime::traits::StaticLookup;
+<span class="kw">use </span>sp_std::{
+	convert::{TryFrom, TryInto},
+	fmt::Debug,
+	marker::PhantomData,
 };
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">mock</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span>;
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>mock;
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests;
 
-<span class="kw">type</span> <span class="ident">BalanceOf</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span><span class="op">&lt;</span><span class="ident">Runtime</span> <span class="kw">as</span> <span class="ident">pallet_democracy::Config</span><span class="op">&gt;</span><span class="ident">::Currency</span> <span class="kw">as</span> <span class="ident">Currency</span><span class="op">&lt;</span>
-	<span class="op">&lt;</span><span class="ident">Runtime</span> <span class="kw">as</span> <span class="ident">frame_system::Config</span><span class="op">&gt;</span><span class="ident">::AccountId</span>,
-<span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::Balance</span>;
+<span class="kw">type </span>BalanceOf&lt;Runtime&gt; = &lt;&lt;Runtime <span class="kw">as </span>pallet_democracy::Config&gt;::Currency <span class="kw">as </span>Currency&lt;
+	&lt;Runtime <span class="kw">as </span>frame_system::Config&gt;::AccountId,
+&gt;&gt;::Balance;
 
-<span class="kw">type</span> <span class="ident">DemocracyOf</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">pallet_democracy::Pallet</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>;
+<span class="kw">type </span>DemocracyOf&lt;Runtime&gt; = pallet_democracy::Pallet&lt;Runtime&gt;;
 
-<span class="attribute">#[<span class="ident">generate_function_selector</span>]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="kw">enum</span> <span class="ident">Action</span> {
-	<span class="ident">PublicPropCount</span> <span class="op">=</span> <span class="string">&quot;public_prop_count()&quot;</span>,
-	<span class="ident">DepositOf</span> <span class="op">=</span> <span class="string">&quot;deposit_of(uint256)&quot;</span>,
-	<span class="ident">LowestUnbaked</span> <span class="op">=</span> <span class="string">&quot;lowest_unbaked()&quot;</span>,
-	<span class="ident">OngoingReferendumInfo</span> <span class="op">=</span> <span class="string">&quot;ongoing_referendum_info(uint256)&quot;</span>,
-	<span class="ident">FinishedReferendumInfo</span> <span class="op">=</span> <span class="string">&quot;finished_referendum_info(uint256)&quot;</span>,
-	<span class="ident">Propose</span> <span class="op">=</span> <span class="string">&quot;propose(bytes32,uint256)&quot;</span>,
-	<span class="ident">Second</span> <span class="op">=</span> <span class="string">&quot;second(uint256,uint256)&quot;</span>,
-	<span class="ident">StandardVote</span> <span class="op">=</span> <span class="string">&quot;standard_vote(uint256,bool,uint256,uint256)&quot;</span>,
-	<span class="ident">RemoveVote</span> <span class="op">=</span> <span class="string">&quot;remove_vote(uint256)&quot;</span>,
-	<span class="ident">Delegate</span> <span class="op">=</span> <span class="string">&quot;delegate(address,uint256,uint256)&quot;</span>,
-	<span class="ident">UnDelegate</span> <span class="op">=</span> <span class="string">&quot;un_delegate()&quot;</span>,
-	<span class="ident">Unlock</span> <span class="op">=</span> <span class="string">&quot;unlock(address)&quot;</span>,
-	<span class="ident">NotePreimage</span> <span class="op">=</span> <span class="string">&quot;note_preimage(bytes)&quot;</span>,
-	<span class="ident">NoteImminentPreimage</span> <span class="op">=</span> <span class="string">&quot;note_imminent_preimage(bytes)&quot;</span>,
-}
+<span class="kw">pub const </span>ENCODED_PROPOSAL_SIZE_LIMIT: u32 = <span class="number">2u32</span>.pow(<span class="number">16</span>);
+<span class="kw">type </span>GetEncodedProposalSizeLimit = ConstU32&lt;ENCODED_PROPOSAL_SIZE_LIMIT&gt;;
 
-<span class="doccomment">/// A precompile to wrap the functionality from pallet democracy.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Grants evm-based DAOs the right to vote making them first-class citizens.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For an example of a political party that operates as a DAO, see PoliticalPartyDao.sol</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DemocracyWrapper</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>(<span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>);
+<span class="doccomment">/// A precompile to wrap the functionality from pallet democracy.
+///
+/// Grants evm-based DAOs the right to vote making them first-class citizens.
+///
+/// For an example of a political party that operates as a DAO, see PoliticalPartyDao.sol
+</span><span class="kw">pub struct </span>DemocracyPrecompile&lt;Runtime&gt;(PhantomData&lt;Runtime&gt;);
 
-<span class="comment">// TODO: Migrate to precompile_utils::Precompile.</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span> <span class="ident">Precompile</span> <span class="kw">for</span> <span class="ident">DemocracyWrapper</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-	<span class="ident">Runtime</span>: <span class="ident">pallet_democracy::Config</span> <span class="op">+</span> <span class="ident">pallet_evm::Config</span> <span class="op">+</span> <span class="ident">frame_system::Config</span>,
-	<span class="ident">BalanceOf</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">U256</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">TryInto</span><span class="op">&lt;</span><span class="ident">u128</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">EvmData</span>,
-	<span class="ident">Runtime::Call</span>: <span class="ident">Dispatchable</span><span class="op">&lt;</span><span class="ident">PostInfo</span> <span class="op">=</span> <span class="ident">PostDispatchInfo</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">GetDispatchInfo</span>,
-	<span class="op">&lt;</span><span class="ident">Runtime::Call</span> <span class="kw">as</span> <span class="ident">Dispatchable</span><span class="op">&gt;</span><span class="ident">::Origin</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Runtime::AccountId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-	<span class="ident">Runtime::Call</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">DemocracyCall</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-	<span class="ident">Runtime::Hash</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">H256</span><span class="op">&gt;</span>,
+<span class="attribute">#[precompile_utils::precompile]
+#[precompile::test_concrete_types(mock::Runtime)]
+</span><span class="kw">impl</span>&lt;Runtime&gt; DemocracyPrecompile&lt;Runtime&gt;
+<span class="kw">where
+	</span>Runtime: pallet_democracy::Config + pallet_evm::Config + frame_system::Config,
+	BalanceOf&lt;Runtime&gt;: TryFrom&lt;U256&gt; + TryInto&lt;u128&gt; + Into&lt;U256&gt; + Debug + EvmData,
+	Runtime::Call: Dispatchable&lt;PostInfo = PostDispatchInfo&gt; + GetDispatchInfo,
+	&lt;Runtime::Call <span class="kw">as </span>Dispatchable&gt;::Origin: From&lt;<span class="prelude-ty">Option</span>&lt;Runtime::AccountId&gt;&gt;,
+	Runtime::Call: From&lt;DemocracyCall&lt;Runtime&gt;&gt;,
+	Runtime::Hash: From&lt;H256&gt; + Into&lt;H256&gt;,
+	Runtime::BlockNumber: Into&lt;U256&gt;,
 {
-	<span class="kw">fn</span> <span class="ident">execute</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="macro">log::trace!</span>(<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>, <span class="string">&quot;In democracy wrapper&quot;</span>);
+	<span class="comment">// The accessors are first. They directly return their result.
+	</span><span class="attribute">#[precompile::public(<span class="string">&quot;publicPropCount()&quot;</span>)]
+	#[precompile::public(<span class="string">&quot;public_prop_count()&quot;</span>)]
+	#[precompile::view]
+	</span><span class="kw">fn </span>public_prop_count(handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle) -&gt; EvmResult&lt;U256&gt; {
+		<span class="comment">// Fetch data from pallet
+		</span>handle.record_cost(RuntimeHelper::&lt;Runtime&gt;::db_read_gas_cost())<span class="question-mark">?</span>;
+		<span class="kw">let </span>prop_count = DemocracyOf::&lt;Runtime&gt;::public_prop_count();
+		<span class="macro">log::trace!</span>(target: <span class="string">&quot;democracy-precompile&quot;</span>, <span class="string">&quot;Prop count from pallet is {:?}&quot;</span>, prop_count);
 
-		<span class="kw">let</span> <span class="ident">selector</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">read_selector</span>()<span class="question-mark">?</span>;
+		<span class="prelude-val">Ok</span>(prop_count.into())
+	}
 
-		<span class="ident">handle</span>.<span class="ident">check_function_modifier</span>(<span class="kw">match</span> <span class="ident">selector</span> {
-			<span class="ident">Action::Propose</span>
-			<span class="op">|</span> <span class="ident">Action::Second</span>
-			<span class="op">|</span> <span class="ident">Action::StandardVote</span>
-			<span class="op">|</span> <span class="ident">Action::RemoveVote</span>
-			<span class="op">|</span> <span class="ident">Action::Delegate</span>
-			<span class="op">|</span> <span class="ident">Action::UnDelegate</span>
-			<span class="op">|</span> <span class="ident">Action::Unlock</span>
-			<span class="op">|</span> <span class="ident">Action::NotePreimage</span>
-			<span class="op">|</span> <span class="ident">Action::NoteImminentPreimage</span> =&gt; <span class="ident">FunctionModifier::NonPayable</span>,
-			<span class="kw">_</span> =&gt; <span class="ident">FunctionModifier::View</span>,
+	<span class="attribute">#[precompile::public(<span class="string">&quot;depositOf(uint256)&quot;</span>)]
+	#[precompile::public(<span class="string">&quot;deposit_of(uint256)&quot;</span>)]
+	#[precompile::view]
+	</span><span class="kw">fn </span>deposit_of(
+		handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle,
+		prop_index: SolidityConvert&lt;U256, u32&gt;,
+	) -&gt; EvmResult&lt;U256&gt; {
+		<span class="kw">let </span>prop_index = prop_index.converted();
+
+		<span class="comment">// Fetch data from pallet
+		</span>handle.record_cost(RuntimeHelper::&lt;Runtime&gt;::db_read_gas_cost())<span class="question-mark">?</span>;
+		<span class="kw">let </span>deposit = DemocracyOf::&lt;Runtime&gt;::deposit_of(prop_index)
+			.ok_or_else(|| revert(<span class="string">&quot;No such proposal in pallet democracy&quot;</span>))<span class="question-mark">?
+			</span>.<span class="number">1</span>;
+
+		<span class="macro">log::trace!</span>(
+			target: <span class="string">&quot;democracy-precompile&quot;</span>,
+			<span class="string">&quot;Deposit of proposal {:?} is {:?}&quot;</span>, prop_index, deposit
+		);
+
+		<span class="prelude-val">Ok</span>(deposit.into())
+	}
+
+	<span class="attribute">#[precompile::public(<span class="string">&quot;lowestUnbaked()&quot;</span>)]
+	#[precompile::public(<span class="string">&quot;lowest_unbaked()&quot;</span>)]
+	#[precompile::view]
+	</span><span class="kw">fn </span>lowest_unbaked(handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle) -&gt; EvmResult&lt;U256&gt; {
+		<span class="comment">// Fetch data from pallet
+		</span>handle.record_cost(RuntimeHelper::&lt;Runtime&gt;::db_read_gas_cost())<span class="question-mark">?</span>;
+		<span class="kw">let </span>lowest_unbaked = DemocracyOf::&lt;Runtime&gt;::lowest_unbaked();
+		<span class="macro">log::trace!</span>(
+			target: <span class="string">&quot;democracy-precompile&quot;</span>,
+			<span class="string">&quot;lowest unbaked referendum is {:?}&quot;</span>, lowest_unbaked
+		);
+
+		<span class="prelude-val">Ok</span>(lowest_unbaked.into())
+	}
+
+	<span class="attribute">#[precompile::public(<span class="string">&quot;ongoingReferendumInfo(uint32)&quot;</span>)]
+	#[precompile::view]
+	</span><span class="kw">fn </span>ongoing_referendum_info(
+		handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle,
+		ref_index: u32,
+	) -&gt; EvmResult&lt;(U256, H256, u8, U256, U256, U256, U256)&gt; {
+		handle.record_cost(RuntimeHelper::&lt;Runtime&gt;::db_read_gas_cost())<span class="question-mark">?</span>;
+		<span class="kw">let </span>ref_status = <span class="kw">match </span>DemocracyOf::&lt;Runtime&gt;::referendum_info(ref_index) {
+			<span class="prelude-val">Some</span>(ReferendumInfo::Ongoing(ref_status)) =&gt; ref_status,
+			<span class="prelude-val">Some</span>(ReferendumInfo::Finished { .. }) =&gt; <span class="prelude-val">Err</span>(revert(<span class="string">&quot;Referendum is finished&quot;</span>))<span class="question-mark">?</span>,
+			<span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(revert(<span class="string">&quot;Unknown referendum&quot;</span>))<span class="question-mark">?</span>,
+		};
+
+		<span class="kw">let </span>threshold_u8: u8 = <span class="kw">match </span>ref_status.threshold {
+			VoteThreshold::SuperMajorityApprove =&gt; <span class="number">0</span>,
+			VoteThreshold::SuperMajorityAgainst =&gt; <span class="number">1</span>,
+			VoteThreshold::SimpleMajority =&gt; <span class="number">2</span>,
+		};
+
+		<span class="prelude-val">Ok</span>((
+			ref_status.end.into(),
+			ref_status.proposal_hash.into(),
+			threshold_u8.into(),
+			ref_status.delay.into(),
+			ref_status.tally.ayes.into(),
+			ref_status.tally.nays.into(),
+			ref_status.tally.turnout.into(),
+		))
+	}
+
+	<span class="attribute">#[precompile::public(<span class="string">&quot;finishedReferendumInfo(uint32)&quot;</span>)]
+	#[precompile::view]
+	</span><span class="kw">fn </span>finished_referendum_info(
+		handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle,
+		ref_index: u32,
+	) -&gt; EvmResult&lt;(bool, U256)&gt; {
+		handle.record_cost(RuntimeHelper::&lt;Runtime&gt;::db_read_gas_cost())<span class="question-mark">?</span>;
+		<span class="kw">let </span>(approved, end) = <span class="kw">match </span>DemocracyOf::&lt;Runtime&gt;::referendum_info(ref_index) {
+			<span class="prelude-val">Some</span>(ReferendumInfo::Ongoing(<span class="kw">_</span>)) =&gt; <span class="prelude-val">Err</span>(revert(<span class="string">&quot;Referendum is ongoing&quot;</span>))<span class="question-mark">?</span>,
+			<span class="prelude-val">Some</span>(ReferendumInfo::Finished { approved, end }) =&gt; (approved, end),
+			<span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(revert(<span class="string">&quot;Unknown referendum&quot;</span>))<span class="question-mark">?</span>,
+		};
+
+		<span class="prelude-val">Ok</span>((approved, end.into()))
+	}
+
+	<span class="comment">// The dispatchable wrappers are next. They dispatch a Substrate inner Call.
+	</span><span class="attribute">#[precompile::public(<span class="string">&quot;propose(bytes32,uint256)&quot;</span>)]
+	</span><span class="kw">fn </span>propose(handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle, proposal_hash: H256, value: U256) -&gt; EvmResult {
+		<span class="kw">let </span>proposal_hash = proposal_hash.into();
+		<span class="kw">let </span>value = <span class="self">Self</span>::u256_to_amount(value).in_field(<span class="string">&quot;value&quot;</span>)<span class="question-mark">?</span>;
+
+		<span class="macro">log::trace!</span>(
+			target: <span class="string">&quot;democracy-precompile&quot;</span>,
+			<span class="string">&quot;Proposing with hash {:?}, and amount {:?}&quot;</span>, proposal_hash, value
+		);
+
+		<span class="kw">let </span>origin = Runtime::AddressMapping::into_account_id(handle.context().caller);
+		<span class="kw">let </span>call = DemocracyCall::&lt;Runtime&gt;::propose {
+			proposal_hash,
+			value,
+		};
+
+		RuntimeHelper::&lt;Runtime&gt;::try_dispatch(handle, <span class="prelude-val">Some</span>(origin).into(), call)<span class="question-mark">?</span>;
+
+		<span class="prelude-val">Ok</span>(())
+	}
+
+	<span class="attribute">#[precompile::public(<span class="string">&quot;second(uint256,uint256)&quot;</span>)]
+	</span><span class="kw">fn </span>second(
+		handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle,
+		prop_index: SolidityConvert&lt;U256, u32&gt;,
+		seconds_upper_bound: SolidityConvert&lt;U256, u32&gt;,
+	) -&gt; EvmResult {
+		<span class="kw">let </span>prop_index = prop_index.converted();
+		<span class="kw">let </span>seconds_upper_bound = seconds_upper_bound.converted();
+
+		<span class="macro">log::trace!</span>(
+			target: <span class="string">&quot;democracy-precompile&quot;</span>,
+			<span class="string">&quot;Seconding proposal {:?}, with bound {:?}&quot;</span>, prop_index, seconds_upper_bound
+		);
+
+		<span class="kw">let </span>origin = Runtime::AddressMapping::into_account_id(handle.context().caller);
+		<span class="kw">let </span>call = DemocracyCall::&lt;Runtime&gt;::second {
+			proposal: prop_index,
+			seconds_upper_bound,
+		};
+
+		RuntimeHelper::&lt;Runtime&gt;::try_dispatch(handle, <span class="prelude-val">Some</span>(origin).into(), call)<span class="question-mark">?</span>;
+
+		<span class="prelude-val">Ok</span>(())
+	}
+
+	<span class="attribute">#[precompile::public(<span class="string">&quot;standardVote(uint256,bool,uint256,uint256)&quot;</span>)]
+	#[precompile::public(<span class="string">&quot;standard_vote(uint256,bool,uint256,uint256)&quot;</span>)]
+	</span><span class="kw">fn </span>standard_vote(
+		handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle,
+		ref_index: SolidityConvert&lt;U256, u32&gt;,
+		aye: bool,
+		vote_amount: U256,
+		conviction: SolidityConvert&lt;U256, u8&gt;,
+	) -&gt; EvmResult {
+		<span class="kw">let </span>ref_index = ref_index.converted();
+		<span class="kw">let </span>vote_amount = <span class="self">Self</span>::u256_to_amount(vote_amount).in_field(<span class="string">&quot;voteAmount&quot;</span>)<span class="question-mark">?</span>;
+
+		<span class="kw">let </span>conviction: Conviction = conviction.converted().try_into().map_err(|<span class="kw">_</span>| {
+			RevertReason::custom(<span class="string">&quot;Must be an integer between 0 and 6 included&quot;</span>)
+				.in_field(<span class="string">&quot;conviction&quot;</span>)
 		})<span class="question-mark">?</span>;
 
-		<span class="kw">match</span> <span class="ident">selector</span> {
-			<span class="comment">// Storage Accessors</span>
-			<span class="ident">Action::PublicPropCount</span> =&gt; <span class="ident"><span class="self">Self</span>::public_prop_count</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::DepositOf</span> =&gt; <span class="ident"><span class="self">Self</span>::deposit_of</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::LowestUnbaked</span> =&gt; <span class="ident"><span class="self">Self</span>::lowest_unbaked</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::OngoingReferendumInfo</span> =&gt; <span class="ident"><span class="self">Self</span>::ongoing_referendum_info</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::FinishedReferendumInfo</span> =&gt; <span class="ident"><span class="self">Self</span>::finished_referendum_info</span>(<span class="ident">handle</span>),
-
-			<span class="comment">// Dispatchables</span>
-			<span class="ident">Action::Propose</span> =&gt; <span class="ident"><span class="self">Self</span>::propose</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::Second</span> =&gt; <span class="ident"><span class="self">Self</span>::second</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::StandardVote</span> =&gt; <span class="ident"><span class="self">Self</span>::standard_vote</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::RemoveVote</span> =&gt; <span class="ident"><span class="self">Self</span>::remove_vote</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::Delegate</span> =&gt; <span class="ident"><span class="self">Self</span>::delegate</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::UnDelegate</span> =&gt; <span class="ident"><span class="self">Self</span>::un_delegate</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::Unlock</span> =&gt; <span class="ident"><span class="self">Self</span>::unlock</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::NotePreimage</span> =&gt; <span class="ident"><span class="self">Self</span>::note_preimage</span>(<span class="ident">handle</span>),
-			<span class="ident">Action::NoteImminentPreimage</span> =&gt; <span class="ident"><span class="self">Self</span>::note_imminent_preimage</span>(<span class="ident">handle</span>),
-		}
-	}
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span> <span class="ident">DemocracyWrapper</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-	<span class="ident">Runtime</span>: <span class="ident">pallet_democracy::Config</span> <span class="op">+</span> <span class="ident">pallet_evm::Config</span> <span class="op">+</span> <span class="ident">frame_system::Config</span>,
-	<span class="ident">BalanceOf</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">U256</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">TryInto</span><span class="op">&lt;</span><span class="ident">u128</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">EvmData</span>,
-	<span class="ident">Runtime::Call</span>: <span class="ident">Dispatchable</span><span class="op">&lt;</span><span class="ident">PostInfo</span> <span class="op">=</span> <span class="ident">PostDispatchInfo</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">GetDispatchInfo</span>,
-	<span class="op">&lt;</span><span class="ident">Runtime::Call</span> <span class="kw">as</span> <span class="ident">Dispatchable</span><span class="op">&gt;</span><span class="ident">::Origin</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Runtime::AccountId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-	<span class="ident">Runtime::Call</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">DemocracyCall</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-	<span class="ident">Runtime::Hash</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">H256</span><span class="op">&gt;</span>,
-{
-	<span class="comment">// The accessors are first. They directly return their result.</span>
-	<span class="kw">fn</span> <span class="ident">public_prop_count</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="comment">// Fetch data from pallet</span>
-		<span class="ident">handle</span>.<span class="ident">record_cost</span>(<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::db_read_gas_cost</span>())<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">prop_count</span> <span class="op">=</span> <span class="ident">DemocracyOf</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::public_prop_count</span>();
-		<span class="macro">log::trace!</span>(<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>, <span class="string">&quot;Prop count from pallet is {:?}&quot;</span>, <span class="ident">prop_count</span>);
-
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>(<span class="ident">EvmDataWriter::new</span>().<span class="ident">write</span>(<span class="ident">prop_count</span>).<span class="ident">build</span>()))
-	}
-
-	<span class="kw">fn</span> <span class="ident">deposit_of</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">read_input</span>()<span class="question-mark">?</span>;
-		<span class="comment">// Bound check</span>
-		<span class="ident">input</span>.<span class="ident">expect_arguments</span>(<span class="number">1</span>)<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">prop_index</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>()<span class="question-mark">?</span>;
-
-		<span class="comment">// Fetch data from pallet</span>
-		<span class="ident">handle</span>.<span class="ident">record_cost</span>(<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::db_read_gas_cost</span>())<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">deposit</span> <span class="op">=</span> <span class="ident">DemocracyOf</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::deposit_of</span>(<span class="ident">prop_index</span>)
-			.<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">revert</span>(<span class="string">&quot;No such proposal in pallet democracy&quot;</span>))<span class="question-mark">?</span>
-			.<span class="number">1</span>;
-
-		<span class="macro">log::trace!</span>(
-			<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>,
-			<span class="string">&quot;Deposit of proposal {:?} is {:?}&quot;</span>, <span class="ident">prop_index</span>, <span class="ident">deposit</span>
-		);
-
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>(<span class="ident">EvmDataWriter::new</span>().<span class="ident">write</span>(<span class="ident">deposit</span>).<span class="ident">build</span>()))
-	}
-
-	<span class="kw">fn</span> <span class="ident">lowest_unbaked</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="comment">// Fetch data from pallet</span>
-		<span class="ident">handle</span>.<span class="ident">record_cost</span>(<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::db_read_gas_cost</span>())<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">lowest_unbaked</span> <span class="op">=</span> <span class="ident">DemocracyOf</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::lowest_unbaked</span>();
-		<span class="macro">log::trace!</span>(
-			<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>,
-			<span class="string">&quot;lowest unbaked referendum is {:?}&quot;</span>, <span class="ident">lowest_unbaked</span>
-		);
-
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>(<span class="ident">EvmDataWriter::new</span>().<span class="ident">write</span>(<span class="ident">lowest_unbaked</span>).<span class="ident">build</span>()))
-	}
-
-	<span class="comment">// This method is not yet implemented because it depends on</span>
-	<span class="comment">// https://github.com/paritytech/substrate/pull/9565 which has been merged into Substrate</span>
-	<span class="comment">// master, but is not on the release branches that we are following</span>
-	<span class="kw">fn</span> <span class="ident">ongoing_referendum_info</span>(<span class="ident">_handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="prelude-val">Err</span>(<span class="ident">revert</span>(
-			<span class="string">&quot;This method depends on https://github.com/paritytech/substrate/pull/9565&quot;</span>,
-		))
-		<span class="comment">// let mut gasometer = Gasometer::new(target_gas);</span>
-
-		<span class="comment">// // Bound check</span>
-		<span class="comment">// input.expect_arguments(1)?;</span>
-		<span class="comment">// let ref_index: u32 = input.read()?;</span>
-
-		<span class="comment">// // Fetch data from pallet</span>
-		<span class="comment">// gasometer.record_cost(RuntimeHelper::&lt;Runtime&gt;::db_read_gas_cost())?;</span>
-		<span class="comment">// let ref_status = match DemocracyOf::&lt;Runtime&gt;::referendum_info(ref_index) {</span>
-		<span class="comment">// 	Some(ReferendumInfo::Ongoing(ref_status)) =&gt; ref_status,</span>
-		<span class="comment">// 	Some(ReferendumInfo::Finished{..}) =&gt; Err(error(&quot;Referendum is finished&quot;))?,</span>
-		<span class="comment">// 	None =&gt; Err(error(&quot;failed to get ongoing (or finished for that matter) referendum&quot;))?,</span>
-		<span class="comment">// };</span>
-		<span class="comment">// log::trace!(</span>
-		<span class="comment">// 	target: &quot;democracy-precompile&quot;,</span>
-		<span class="comment">// 	&quot;Ongoing Referendum info for ref {:?} is {:?}&quot;, ref_index, ref_status</span>
-		<span class="comment">// );</span>
-
-		<span class="comment">// // Write data</span>
-		<span class="comment">// //TODO woof, between private fields and generic types, this is pretty complicated</span>
-		<span class="comment">// let threshold_u8: u8 = match ref_status.threshold {</span>
-		<span class="comment">// 	VoteThreshold::SuperMajorityApprove =&gt; 0,</span>
-		<span class="comment">// 	VoteThreshold::SuperMajorityAgainst =&gt; 1,</span>
-		<span class="comment">// 	VoteThreshold::SimpleMajority =&gt; 2,</span>
-		<span class="comment">// };</span>
-
-		<span class="comment">// let output = EvmDataWriter::new()</span>
-		<span class="comment">// 	.write(ref_status.end)</span>
-		<span class="comment">// 	.write(ref_status.proposal_hash)</span>
-		<span class="comment">// 	.write(threshold_u8)</span>
-		<span class="comment">// 	.write(ref_status.delay)</span>
-		<span class="comment">// 	.write(ref_status.tally.ayes)</span>
-		<span class="comment">// 	.write(ref_status.tally.nays)</span>
-		<span class="comment">// 	.write(ref_status.tally.turnout);</span>
-
-		<span class="comment">// Ok(PrecompileOutput {</span>
-		<span class="comment">// 	exit_status: ExitSucceed::Returned,</span>
-		<span class="comment">// 	cost: gasometer.used_gas(),</span>
-		<span class="comment">// 	output: output.build(),</span>
-		<span class="comment">// 	logs: Default::default(),</span>
-		<span class="comment">// })</span>
-	}
-
-	<span class="comment">// This method is not yet implemented because it depends on</span>
-	<span class="comment">// https://github.com/paritytech/substrate/pull/9565 which has been merged into Substrate</span>
-	<span class="comment">// master, but is not on the release branches that we are following</span>
-	<span class="kw">fn</span> <span class="ident">finished_referendum_info</span>(
-		<span class="ident">_handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>,
-	) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="prelude-val">Err</span>(<span class="ident">revert</span>(
-			<span class="string">&quot;This method depends on https://github.com/paritytech/substrate/pull/9565&quot;</span>,
-		))
-	}
-
-	<span class="comment">// The dispatchable wrappers are next. They dispatch a Substrate inner Call.</span>
-	<span class="kw">fn</span> <span class="ident">propose</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">read_input</span>()<span class="question-mark">?</span>;
-		<span class="comment">// Bound check</span>
-		<span class="ident">input</span>.<span class="ident">expect_arguments</span>(<span class="number">2</span>)<span class="question-mark">?</span>;
-
-		<span class="kw">let</span> <span class="ident">proposal_hash</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>::<span class="op">&lt;</span><span class="ident">H256</span><span class="op">&gt;</span>()<span class="question-mark">?</span>.<span class="ident">into</span>();
-		<span class="kw">let</span> <span class="ident">amount</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>::<span class="op">&lt;</span><span class="ident">BalanceOf</span><span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
-
-		<span class="macro">log::trace!</span>(
-			<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>,
-			<span class="string">&quot;Proposing with hash {:?}, and amount {:?}&quot;</span>, <span class="ident">proposal_hash</span>, <span class="ident">amount</span>
-		);
-
-		<span class="kw">let</span> <span class="ident">origin</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">handle</span>.<span class="ident">context</span>().<span class="ident">caller</span>);
-		<span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">DemocracyCall</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::propose</span> {
-			<span class="ident">proposal_hash</span>,
-			<span class="ident">value</span>: <span class="ident">amount</span>,
+		<span class="kw">let </span>vote = AccountVote::Standard {
+			vote: Vote { aye, conviction },
+			balance: vote_amount,
 		};
 
-		<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::try_dispatch</span>(<span class="ident">handle</span>, <span class="prelude-val">Some</span>(<span class="ident">origin</span>).<span class="ident">into</span>(), <span class="ident">call</span>)<span class="question-mark">?</span>;
-
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>([]))
-	}
-
-	<span class="kw">fn</span> <span class="ident">second</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">read_input</span>()<span class="question-mark">?</span>;
-		<span class="comment">// Bound check</span>
-		<span class="ident">input</span>.<span class="ident">expect_arguments</span>(<span class="number">2</span>)<span class="question-mark">?</span>;
-
-		<span class="kw">let</span> <span class="ident">proposal</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>()<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">seconds_upper_bound</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>()<span class="question-mark">?</span>;
-
-		<span class="macro">log::trace!</span>(
-			<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>,
-			<span class="string">&quot;Seconding proposal {:?}, with bound {:?}&quot;</span>, <span class="ident">proposal</span>, <span class="ident">seconds_upper_bound</span>
-		);
-
-		<span class="kw">let</span> <span class="ident">origin</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">handle</span>.<span class="ident">context</span>().<span class="ident">caller</span>);
-		<span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">DemocracyCall</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::second</span> {
-			<span class="ident">proposal</span>,
-			<span class="ident">seconds_upper_bound</span>,
-		};
-
-		<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::try_dispatch</span>(<span class="ident">handle</span>, <span class="prelude-val">Some</span>(<span class="ident">origin</span>).<span class="ident">into</span>(), <span class="ident">call</span>)<span class="question-mark">?</span>;
-
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>([]))
-	}
-
-	<span class="kw">fn</span> <span class="ident">standard_vote</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">read_input</span>()<span class="question-mark">?</span>;
-		<span class="comment">// Bound check</span>
-		<span class="ident">input</span>.<span class="ident">expect_arguments</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
-
-		<span class="kw">let</span> <span class="ident">ref_index</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>()<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">aye</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>()<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">balance</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>()<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">conviction</span> <span class="op">=</span> <span class="ident">input</span>
-			.<span class="ident">read</span>::<span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>()<span class="question-mark">?</span>
-			.<span class="ident">try_into</span>()
-			.<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">revert</span>(<span class="string">&quot;Conviction must be an integer in the range 0-6&quot;</span>))<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">vote</span> <span class="op">=</span> <span class="ident">AccountVote::Standard</span> {
-			<span class="ident">vote</span>: <span class="ident">Vote</span> { <span class="ident">aye</span>, <span class="ident">conviction</span> },
-			<span class="ident">balance</span>,
-		};
-
-		<span class="macro">log::trace!</span>(<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>,
+		<span class="macro">log::trace!</span>(target: <span class="string">&quot;democracy-precompile&quot;</span>,
 			<span class="string">&quot;Voting {:?} on referendum #{:?}, with conviction {:?}&quot;</span>,
-			<span class="ident">aye</span>, <span class="ident">ref_index</span>, <span class="ident">conviction</span>
+			aye, ref_index, conviction
 		);
 
-		<span class="kw">let</span> <span class="ident">origin</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">handle</span>.<span class="ident">context</span>().<span class="ident">caller</span>);
-		<span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">DemocracyCall</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::vote</span> { <span class="ident">ref_index</span>, <span class="ident">vote</span> };
+		<span class="kw">let </span>origin = Runtime::AddressMapping::into_account_id(handle.context().caller);
+		<span class="kw">let </span>call = DemocracyCall::&lt;Runtime&gt;::vote { ref_index, vote };
 
-		<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::try_dispatch</span>(<span class="ident">handle</span>, <span class="prelude-val">Some</span>(<span class="ident">origin</span>).<span class="ident">into</span>(), <span class="ident">call</span>)<span class="question-mark">?</span>;
+		RuntimeHelper::&lt;Runtime&gt;::try_dispatch(handle, <span class="prelude-val">Some</span>(origin).into(), call)<span class="question-mark">?</span>;
 
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>([]))
+		<span class="prelude-val">Ok</span>(())
 	}
 
-	<span class="kw">fn</span> <span class="ident">remove_vote</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">read_input</span>()<span class="question-mark">?</span>;
-		<span class="comment">// Bound check</span>
-		<span class="ident">input</span>.<span class="ident">expect_arguments</span>(<span class="number">1</span>)<span class="question-mark">?</span>;
-
-		<span class="kw">let</span> <span class="ident">referendum_index</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>()<span class="question-mark">?</span>;
+	<span class="attribute">#[precompile::public(<span class="string">&quot;removeVote(uint256)&quot;</span>)]
+	#[precompile::public(<span class="string">&quot;remove_vote(uint256)&quot;</span>)]
+	</span><span class="kw">fn </span>remove_vote(
+		handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle,
+		ref_index: SolidityConvert&lt;U256, u32&gt;,
+	) -&gt; EvmResult {
+		<span class="kw">let </span>ref_index: u32 = ref_index.converted();
 
 		<span class="macro">log::trace!</span>(
-			<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>,
+			target: <span class="string">&quot;democracy-precompile&quot;</span>,
 			<span class="string">&quot;Removing vote from referendum {:?}&quot;</span>,
-			<span class="ident">referendum_index</span>
+			ref_index
 		);
 
-		<span class="kw">let</span> <span class="ident">origin</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">handle</span>.<span class="ident">context</span>().<span class="ident">caller</span>);
-		<span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">DemocracyCall</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::remove_vote</span> {
-			<span class="ident">index</span>: <span class="ident">referendum_index</span>,
-		};
+		<span class="kw">let </span>origin = Runtime::AddressMapping::into_account_id(handle.context().caller);
+		<span class="kw">let </span>call = DemocracyCall::&lt;Runtime&gt;::remove_vote { index: ref_index };
 
-		<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::try_dispatch</span>(<span class="ident">handle</span>, <span class="prelude-val">Some</span>(<span class="ident">origin</span>).<span class="ident">into</span>(), <span class="ident">call</span>)<span class="question-mark">?</span>;
+		RuntimeHelper::&lt;Runtime&gt;::try_dispatch(handle, <span class="prelude-val">Some</span>(origin).into(), call)<span class="question-mark">?</span>;
 
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>([]))
+		<span class="prelude-val">Ok</span>(())
 	}
 
-	<span class="kw">fn</span> <span class="ident">delegate</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">read_input</span>()<span class="question-mark">?</span>;
-		<span class="comment">// Bound check</span>
-		<span class="ident">input</span>.<span class="ident">expect_arguments</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
+	<span class="attribute">#[precompile::public(<span class="string">&quot;delegate(address,uint256,uint256)&quot;</span>)]
+	</span><span class="kw">fn </span>delegate(
+		handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle,
+		representative: Address,
+		conviction: SolidityConvert&lt;U256, u8&gt;,
+		amount: U256,
+	) -&gt; EvmResult {
+		<span class="kw">let </span>amount = <span class="self">Self</span>::u256_to_amount(amount).in_field(<span class="string">&quot;amount&quot;</span>)<span class="question-mark">?</span>;
 
-		<span class="kw">let</span> <span class="ident">to</span>: <span class="ident">H160</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>::<span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>()<span class="question-mark">?</span>.<span class="ident">into</span>();
-		<span class="kw">let</span> <span class="ident">to</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">to</span>);
-		<span class="kw">let</span> <span class="ident">conviction</span> <span class="op">=</span> <span class="ident">input</span>
-			.<span class="ident">read</span>::<span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>()<span class="question-mark">?</span>
-			.<span class="ident">try_into</span>()
-			.<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">revert</span>(<span class="string">&quot;Conviction must be an integer in the range 0-6&quot;</span>))<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">balance</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>()<span class="question-mark">?</span>;
+		<span class="kw">let </span>conviction: Conviction = conviction.converted().try_into().map_err(|<span class="kw">_</span>| {
+			RevertReason::custom(<span class="string">&quot;Must be an integer between 0 and 6 included&quot;</span>)
+				.in_field(<span class="string">&quot;conviction&quot;</span>)
+		})<span class="question-mark">?</span>;
 
-		<span class="macro">log::trace!</span>(<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>,
+		<span class="macro">log::trace!</span>(target: <span class="string">&quot;democracy-precompile&quot;</span>,
 			<span class="string">&quot;Delegating vote to {:?} with balance {:?} and {:?}&quot;</span>,
-			<span class="ident">to</span>, <span class="ident">conviction</span>, <span class="ident">balance</span>
+			representative, conviction, amount
 		);
 
-		<span class="kw">let</span> <span class="ident">origin</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">handle</span>.<span class="ident">context</span>().<span class="ident">caller</span>);
-		<span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">DemocracyCall</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::delegate</span> {
-			<span class="ident">to</span>,
-			<span class="ident">conviction</span>,
-			<span class="ident">balance</span>,
+		<span class="kw">let </span>representative = Runtime::AddressMapping::into_account_id(representative.into());
+		<span class="kw">let </span>to: &lt;Runtime::Lookup <span class="kw">as </span>StaticLookup&gt;::Source =
+			Runtime::Lookup::unlookup(representative.clone());
+		<span class="kw">let </span>origin = Runtime::AddressMapping::into_account_id(handle.context().caller);
+		<span class="kw">let </span>call = DemocracyCall::&lt;Runtime&gt;::delegate {
+			to,
+			conviction,
+			balance: amount,
 		};
 
-		<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::try_dispatch</span>(<span class="ident">handle</span>, <span class="prelude-val">Some</span>(<span class="ident">origin</span>).<span class="ident">into</span>(), <span class="ident">call</span>)<span class="question-mark">?</span>;
+		RuntimeHelper::&lt;Runtime&gt;::try_dispatch(handle, <span class="prelude-val">Some</span>(origin).into(), call)<span class="question-mark">?</span>;
 
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>([]))
+		<span class="prelude-val">Ok</span>(())
 	}
 
-	<span class="kw">fn</span> <span class="ident">un_delegate</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="ident">origin</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">handle</span>.<span class="ident">context</span>().<span class="ident">caller</span>);
-		<span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">DemocracyCall</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::undelegate</span> {};
+	<span class="attribute">#[precompile::public(<span class="string">&quot;unDelegate()&quot;</span>)]
+	#[precompile::public(<span class="string">&quot;un_delegate()&quot;</span>)]
+	</span><span class="kw">fn </span>un_delegate(handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle) -&gt; EvmResult {
+		<span class="kw">let </span>origin = Runtime::AddressMapping::into_account_id(handle.context().caller);
+		<span class="kw">let </span>call = DemocracyCall::&lt;Runtime&gt;::undelegate {};
 
-		<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::try_dispatch</span>(<span class="ident">handle</span>, <span class="prelude-val">Some</span>(<span class="ident">origin</span>).<span class="ident">into</span>(), <span class="ident">call</span>)<span class="question-mark">?</span>;
+		RuntimeHelper::&lt;Runtime&gt;::try_dispatch(handle, <span class="prelude-val">Some</span>(origin).into(), call)<span class="question-mark">?</span>;
 
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>([]))
+		<span class="prelude-val">Ok</span>(())
 	}
 
-	<span class="kw">fn</span> <span class="ident">unlock</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">read_input</span>()<span class="question-mark">?</span>;
-		<span class="comment">// Bound check</span>
-		<span class="ident">input</span>.<span class="ident">expect_arguments</span>(<span class="number">1</span>)<span class="question-mark">?</span>;
-
-		<span class="kw">let</span> <span class="ident">target</span>: <span class="ident">H160</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>::<span class="op">&lt;</span><span class="ident">Address</span><span class="op">&gt;</span>()<span class="question-mark">?</span>.<span class="ident">into</span>();
-		<span class="kw">let</span> <span class="ident">target</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">target</span>);
+	<span class="attribute">#[precompile::public(<span class="string">&quot;unlock(address)&quot;</span>)]
+	</span><span class="kw">fn </span>unlock(handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle, target: Address) -&gt; EvmResult {
+		<span class="kw">let </span>target: H160 = target.into();
+		<span class="kw">let </span>target = Runtime::AddressMapping::into_account_id(target);
+		<span class="kw">let </span>target: &lt;Runtime::Lookup <span class="kw">as </span>StaticLookup&gt;::Source =
+			Runtime::Lookup::unlookup(target.clone());
 
 		<span class="macro">log::trace!</span>(
-			<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>,
-			<span class="string">&quot;Unlocking democracy tokens for {:?}&quot;</span>, <span class="ident">target</span>
+			target: <span class="string">&quot;democracy-precompile&quot;</span>,
+			<span class="string">&quot;Unlocking democracy tokens for {:?}&quot;</span>, target
 		);
 
-		<span class="kw">let</span> <span class="ident">origin</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">handle</span>.<span class="ident">context</span>().<span class="ident">caller</span>);
-		<span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">DemocracyCall</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::unlock</span> { <span class="ident">target</span> };
+		<span class="kw">let </span>origin = Runtime::AddressMapping::into_account_id(handle.context().caller);
+		<span class="kw">let </span>call = DemocracyCall::&lt;Runtime&gt;::unlock { target };
 
-		<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::try_dispatch</span>(<span class="ident">handle</span>, <span class="prelude-val">Some</span>(<span class="ident">origin</span>).<span class="ident">into</span>(), <span class="ident">call</span>)<span class="question-mark">?</span>;
+		RuntimeHelper::&lt;Runtime&gt;::try_dispatch(handle, <span class="prelude-val">Some</span>(origin).into(), call)<span class="question-mark">?</span>;
 
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>([]))
+		<span class="prelude-val">Ok</span>(())
 	}
 
-	<span class="kw">fn</span> <span class="ident">note_preimage</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">read_input</span>()<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">encoded_proposal</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>::<span class="op">&lt;</span><span class="ident">Bytes</span><span class="op">&gt;</span>()<span class="question-mark">?</span>.<span class="ident">into</span>();
+	<span class="attribute">#[precompile::public(<span class="string">&quot;notePreimage(bytes)&quot;</span>)]
+	#[precompile::public(<span class="string">&quot;note_preimage(bytes)&quot;</span>)]
+	</span><span class="kw">fn </span>note_preimage(
+		handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle,
+		encoded_proposal: BoundedBytes&lt;GetEncodedProposalSizeLimit&gt;,
+	) -&gt; EvmResult {
+		<span class="kw">let </span>encoded_proposal = encoded_proposal.into();
 
 		<span class="macro">log::trace!</span>(
-			<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>,
-			<span class="string">&quot;Noting preimage {:?}&quot;</span>, <span class="ident">encoded_proposal</span>
+			target: <span class="string">&quot;democracy-precompile&quot;</span>,
+			<span class="string">&quot;Noting preimage {:?}&quot;</span>, encoded_proposal
 		);
 
-		<span class="kw">let</span> <span class="ident">origin</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">handle</span>.<span class="ident">context</span>().<span class="ident">caller</span>);
-		<span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">DemocracyCall</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::note_preimage</span> { <span class="ident">encoded_proposal</span> };
+		<span class="kw">let </span>origin = Runtime::AddressMapping::into_account_id(handle.context().caller);
+		<span class="kw">let </span>call = DemocracyCall::&lt;Runtime&gt;::note_preimage { encoded_proposal };
 
-		<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::try_dispatch</span>(<span class="ident">handle</span>, <span class="prelude-val">Some</span>(<span class="ident">origin</span>).<span class="ident">into</span>(), <span class="ident">call</span>)<span class="question-mark">?</span>;
+		RuntimeHelper::&lt;Runtime&gt;::try_dispatch(handle, <span class="prelude-val">Some</span>(origin).into(), call)<span class="question-mark">?</span>;
 
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>([]))
+		<span class="prelude-val">Ok</span>(())
 	}
 
-	<span class="kw">fn</span> <span class="ident">note_imminent_preimage</span>(<span class="ident">handle</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">PrecompileHandle</span>) -&gt; <span class="ident">EvmResult</span><span class="op">&lt;</span><span class="ident">PrecompileOutput</span><span class="op">&gt;</span> {
-		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">read_input</span>()<span class="question-mark">?</span>;
-		<span class="kw">let</span> <span class="ident">encoded_proposal</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">read</span>::<span class="op">&lt;</span><span class="ident">Bytes</span><span class="op">&gt;</span>()<span class="question-mark">?</span>.<span class="ident">into</span>();
+	<span class="attribute">#[precompile::public(<span class="string">&quot;noteImminentPreimage(bytes)&quot;</span>)]
+	#[precompile::public(<span class="string">&quot;note_imminent_preimage(bytes)&quot;</span>)]
+	</span><span class="kw">fn </span>note_imminent_preimage(
+		handle: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>PrecompileHandle,
+		encoded_proposal: BoundedBytes&lt;GetEncodedProposalSizeLimit&gt;,
+	) -&gt; EvmResult {
+		<span class="kw">let </span>encoded_proposal = encoded_proposal.into();
 
 		<span class="macro">log::trace!</span>(
-			<span class="ident">target</span>: <span class="string">&quot;democracy-precompile&quot;</span>,
-			<span class="string">&quot;Noting imminent preimage {:?}&quot;</span>, <span class="ident">encoded_proposal</span>
+			target: <span class="string">&quot;democracy-precompile&quot;</span>,
+			<span class="string">&quot;Noting imminent preimage {:?}&quot;</span>, encoded_proposal
 		);
 
-		<span class="kw">let</span> <span class="ident">origin</span> <span class="op">=</span> <span class="ident">Runtime::AddressMapping::into_account_id</span>(<span class="ident">handle</span>.<span class="ident">context</span>().<span class="ident">caller</span>);
-		<span class="kw">let</span> <span class="ident">call</span> <span class="op">=</span> <span class="ident">DemocracyCall</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::note_imminent_preimage</span> { <span class="ident">encoded_proposal</span> };
+		<span class="kw">let </span>origin = Runtime::AddressMapping::into_account_id(handle.context().caller);
+		<span class="kw">let </span>call = DemocracyCall::&lt;Runtime&gt;::note_imminent_preimage { encoded_proposal };
 
-		<span class="ident">RuntimeHelper</span>::<span class="op">&lt;</span><span class="ident">Runtime</span><span class="op">&gt;</span><span class="ident">::try_dispatch</span>(<span class="ident">handle</span>, <span class="prelude-val">Some</span>(<span class="ident">origin</span>).<span class="ident">into</span>(), <span class="ident">call</span>)<span class="question-mark">?</span>;
+		RuntimeHelper::&lt;Runtime&gt;::try_dispatch(handle, <span class="prelude-val">Some</span>(origin).into(), call)<span class="question-mark">?</span>;
 
-		<span class="prelude-val">Ok</span>(<span class="ident">succeed</span>([]))
+		<span class="prelude-val">Ok</span>(())
+	}
+
+	<span class="kw">fn </span>u256_to_amount(value: U256) -&gt; MayRevert&lt;BalanceOf&lt;Runtime&gt;&gt; {
+		value
+			.try_into()
+			.map_err(|<span class="kw">_</span>| RevertReason::value_is_too_large(<span class="string">&quot;balance type&quot;</span>).into())
 	}
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pallet_evm_precompile_democracy" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (4ca19e09d 2022-04-19)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="pallet_evm_precompile_democracy" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (1d37ed661 2022-09-09)" ></div></body></html>
