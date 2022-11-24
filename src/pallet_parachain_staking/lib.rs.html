@@ -1883,6 +1883,30 @@
 <span id="1883">1883</span>
 <span id="1884">1884</span>
 <span id="1885">1885</span>
+<span id="1886">1886</span>
+<span id="1887">1887</span>
+<span id="1888">1888</span>
+<span id="1889">1889</span>
+<span id="1890">1890</span>
+<span id="1891">1891</span>
+<span id="1892">1892</span>
+<span id="1893">1893</span>
+<span id="1894">1894</span>
+<span id="1895">1895</span>
+<span id="1896">1896</span>
+<span id="1897">1897</span>
+<span id="1898">1898</span>
+<span id="1899">1899</span>
+<span id="1900">1900</span>
+<span id="1901">1901</span>
+<span id="1902">1902</span>
+<span id="1903">1903</span>
+<span id="1904">1904</span>
+<span id="1905">1905</span>
+<span id="1906">1906</span>
+<span id="1907">1907</span>
+<span id="1908">1908</span>
+<span id="1909">1909</span>
 </pre><pre class="rust"><code><span class="comment">// Copyright 2019-2022 PureStake Inc.
 // This file is part of Moonbeam.
 
@@ -2053,6 +2077,9 @@
 		<span class="doccomment">/// Handler to notify the runtime when a collator is paid.
 		/// If you don&#39;t need it, you can specify the type `()`.
 		</span><span class="kw">type </span>OnCollatorPayout: OnCollatorPayout&lt;<span class="self">Self</span>::AccountId, BalanceOf&lt;<span class="self">Self</span>&gt;&gt;;
+		<span class="doccomment">/// Handler to distribute a collator&#39;s reward.
+		/// To use the default implementation of minting rewards, specify the type `()`.
+		</span><span class="kw">type </span>PayoutCollatorReward: PayoutCollatorReward&lt;<span class="self">Self</span>&gt;;
 		<span class="doccomment">/// Handler to notify the runtime when a new round begin.
 		/// If you don&#39;t need it, you can specify the type `()`.
 		</span><span class="kw">type </span>OnNewRound: OnNewRound;
@@ -2319,10 +2346,11 @@
 				<span class="comment">// notify that new round begin
 				</span>weight = weight.saturating_add(T::OnNewRound::on_new_round(round.current));
 				<span class="comment">// pay all stakers for T::RewardPaymentDelay rounds ago
-				</span><span class="self">Self</span>::prepare_staking_payouts(round.current);
+				</span>weight = weight.saturating_add(<span class="self">Self</span>::prepare_staking_payouts(round.current));
 				<span class="comment">// select top collator candidates for next round
-				</span><span class="kw">let </span>(collator_count, delegation_count, total_staked) =
+				</span><span class="kw">let </span>(extra_weight, collator_count, _delegation_count, total_staked) =
 					<span class="self">Self</span>::select_top_candidates(round.current);
+				weight = weight.saturating_add(extra_weight);
 				<span class="comment">// start next round
 				</span>&lt;Round&lt;T&gt;&gt;::put(round);
 				<span class="comment">// snapshot total stake
@@ -2333,22 +2361,16 @@
 					selected_collators_number: collator_count,
 					total_balance: total_staked,
 				});
-				weight = weight.saturating_add(T::WeightInfo::round_transition_on_initialize(
-					collator_count,
-					delegation_count,
-				));
+				<span class="comment">// account for Round and Staked writes
+				</span>weight = weight.saturating_add(T::DbWeight::get().reads_writes(<span class="number">0</span>, <span class="number">2</span>));
 			}
 
 			weight = weight.saturating_add(<span class="self">Self</span>::handle_delayed_payouts(round.current));
 
 			<span class="comment">// add on_finalize weight
-			</span>weight = weight.saturating_add(
-				<span class="comment">// read Author, Points, AwardedPts
-				// write Points, AwardedPts
-				</span>T::DbWeight::get()
-					.reads(<span class="number">3</span>)
-					.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>)),
-			);
+			//   read:  Author, Points, AwardedPts
+			//   write: Points, AwardedPts
+			</span>weight = weight.saturating_add(T::DbWeight::get().reads_writes(<span class="number">3</span>, <span class="number">2</span>));
 			weight
 		}
 		<span class="kw">fn </span>on_finalize(_n: T::BlockNumber) {
@@ -2364,12 +2386,12 @@
 	<span class="attribute">#[pallet::storage]
 	#[pallet::getter(<span class="kw">fn </span>total_selected)]
 	</span><span class="doccomment">/// The total candidates selected every round
-	</span><span class="kw">type </span>TotalSelected&lt;T: Config&gt; = StorageValue&lt;<span class="kw">_</span>, u32, ValueQuery&gt;;
+	</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>TotalSelected&lt;T: Config&gt; = StorageValue&lt;<span class="kw">_</span>, u32, ValueQuery&gt;;
 
 	<span class="attribute">#[pallet::storage]
 	#[pallet::getter(<span class="kw">fn </span>parachain_bond_info)]
 	</span><span class="doccomment">/// Parachain bond config info { account, percent_of_inflation }
-	</span><span class="kw">type </span>ParachainBondInfo&lt;T: Config&gt; =
+	</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>ParachainBondInfo&lt;T: Config&gt; =
 		StorageValue&lt;<span class="kw">_</span>, ParachainBondConfig&lt;T::AccountId&gt;, ValueQuery&gt;;
 
 	<span class="attribute">#[pallet::storage]
@@ -2544,7 +2566,6 @@
 					&lt;Pallet&lt;T&gt;&gt;::get_collator_stakable_free_balance(candidate) &gt;= balance,
 					<span class="string">&quot;Account does not have enough balance to bond as a candidate.&quot;
 				</span>);
-				candidate_count = candidate_count.saturating_add(<span class="number">1u32</span>);
 				<span class="kw">if let </span><span class="prelude-val">Err</span>(error) = &lt;Pallet&lt;T&gt;&gt;::join_candidates(
 					T::Origin::from(<span class="prelude-val">Some</span>(candidate.clone()).into()),
 					balance,
@@ -2621,7 +2642,7 @@
 			<span class="comment">// Set total selected candidates to minimum config
 			</span>&lt;TotalSelected&lt;T&gt;&gt;::put(T::MinSelectedCandidates::get());
 			<span class="comment">// Choose top TotalSelected collator candidates
-			</span><span class="kw">let </span>(v_count, <span class="kw">_</span>, total_staked) = &lt;Pallet&lt;T&gt;&gt;::select_top_candidates(<span class="number">1u32</span>);
+			</span><span class="kw">let </span>(<span class="kw">_</span>, v_count, <span class="kw">_</span>, total_staked) = &lt;Pallet&lt;T&gt;&gt;::select_top_candidates(<span class="number">1u32</span>);
 			<span class="comment">// Start Round 1 at Block 0
 			</span><span class="kw">let </span>round: RoundInfo&lt;T::BlockNumber&gt; =
 				RoundInfo::new(<span class="number">1u32</span>, <span class="number">0u32</span>.into(), <span class="self">self</span>.blocks_per_round);
@@ -3277,6 +3298,17 @@
 		}
 	}
 
+	<span class="doccomment">/// Represents a payout made via `pay_one_collator_reward`.
+	</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>RewardPayment {
+		<span class="doccomment">/// A collator was paid
+		</span>Paid,
+		<span class="doccomment">/// A collator was skipped for payment. This can happen if they haven&#39;t been awarded any
+		/// points, that is, they did not produce any blocks.
+		</span>Skipped,
+		<span class="doccomment">/// All collator payments have been processed.
+		</span>Finished,
+	}
+
 	<span class="kw">impl</span>&lt;T: Config&gt; Pallet&lt;T&gt; {
 		<span class="kw">pub fn </span>is_delegator(acc: <span class="kw-2">&amp;</span>T::AccountId) -&gt; bool {
 			&lt;DelegatorState&lt;T&gt;&gt;::get(acc).is_some()
@@ -3354,16 +3386,16 @@
 			});
 			<span class="prelude-val">Ok</span>(())
 		}
-		<span class="kw">fn </span>prepare_staking_payouts(now: RoundIndex) {
+		<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prepare_staking_payouts(now: RoundIndex) -&gt; Weight {
 			<span class="comment">// payout is now - delay rounds ago =&gt; now - delay &gt; 0 else return early
 			</span><span class="kw">let </span>delay = T::RewardPaymentDelay::get();
 			<span class="kw">if </span>now &lt;= delay {
-				<span class="kw">return</span>;
+				<span class="kw">return </span>Weight::zero();
 			}
 			<span class="kw">let </span>round_to_payout = now.saturating_sub(delay);
 			<span class="kw">let </span>total_points = &lt;Points&lt;T&gt;&gt;::get(round_to_payout);
 			<span class="kw">if </span>total_points.is_zero() {
-				<span class="kw">return</span>;
+				<span class="kw">return </span>Weight::zero();
 			}
 			<span class="kw">let </span>total_staked = &lt;Staked&lt;T&gt;&gt;::take(round_to_payout);
 			<span class="kw">let </span>total_issuance = <span class="self">Self</span>::compute_issuance(total_staked);
@@ -3389,6 +3421,7 @@
 			};
 
 			&lt;DelayedPayouts&lt;T&gt;&gt;::insert(round_to_payout, payout);
+			T::WeightInfo::prepare_staking_payouts()
 		}
 
 		<span class="doccomment">/// Wrapper around pay_one_collator_reward which handles the following logic:
@@ -3407,23 +3440,14 @@
 
 			<span class="kw">if let </span><span class="prelude-val">Some</span>(payout_info) = &lt;DelayedPayouts&lt;T&gt;&gt;::get(paid_for_round) {
 				<span class="kw">let </span>result = <span class="self">Self</span>::pay_one_collator_reward(paid_for_round, payout_info);
-				<span class="kw">if </span>result.<span class="number">0</span>.is_none() {
-					<span class="comment">// result.0 indicates whether or not a payout was made
-					// clean up storage items that we no longer need
-					</span>&lt;DelayedPayouts&lt;T&gt;&gt;::remove(paid_for_round);
-					&lt;Points&lt;T&gt;&gt;::remove(paid_for_round);
 
-					<span class="comment">// remove all candidates that did not produce any blocks for
-					// the given round. The weight is added based on the number of backend
-					// items removed.
-					</span><span class="kw">let </span>remove_result = &lt;AtStake&lt;T&gt;&gt;::clear_prefix(paid_for_round, <span class="number">20</span>, <span class="prelude-val">None</span>);
-					result
-						.<span class="number">1
-						</span>.saturating_add(T::DbWeight::get().writes(remove_result.backend <span class="kw">as </span>u64))
-				} <span class="kw">else </span>{
-					result.<span class="number">1 </span><span class="comment">// weight consumed by pay_one_collator_reward
-				</span>}
-			} <span class="kw">else </span>{
+				<span class="comment">// clean up storage items that we no longer need
+				</span><span class="kw">if </span><span class="macro">matches!</span>(result.<span class="number">0</span>, RewardPayment::Finished) {
+					&lt;DelayedPayouts&lt;T&gt;&gt;::remove(paid_for_round);
+					&lt;Points&lt;T&gt;&gt;::remove(paid_for_round);
+				}
+				result.<span class="number">1 </span><span class="comment">// weight consumed by pay_one_collator_reward
+			</span>} <span class="kw">else </span>{
 				Weight::from_ref_time(<span class="number">0u64</span>)
 			}
 		}
@@ -3435,7 +3459,7 @@
 		</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>pay_one_collator_reward(
 			paid_for_round: RoundIndex,
 			payout_info: DelayedPayout&lt;BalanceOf&lt;T&gt;&gt;,
-		) -&gt; (<span class="prelude-ty">Option</span>&lt;(T::AccountId, BalanceOf&lt;T&gt;)&gt;, Weight) {
+		) -&gt; (RewardPayment, Weight) {
 			<span class="comment">// TODO: it would probably be optimal to roll Points into the DelayedPayouts storage
 			// item so that we do fewer reads each block
 			</span><span class="kw">let </span>total_points = &lt;Points&lt;T&gt;&gt;::get(paid_for_round);
@@ -3446,29 +3470,36 @@
 				// 2. we called pay_one_collator_reward when we were actually done with deferred
 				//    payouts
 				</span><span class="macro">log::warn!</span>(<span class="string">&quot;pay_one_collator_reward called with no &lt;Points&lt;T&gt;&gt; for the round!&quot;</span>);
-				<span class="kw">return </span>(<span class="prelude-val">None</span>, Weight::zero());
+				<span class="kw">return </span>(RewardPayment::Finished, Weight::zero());
 			}
 
 			<span class="kw">let </span>collator_fee = payout_info.collator_commission;
 			<span class="kw">let </span>collator_issuance = collator_fee * payout_info.round_issuance;
 
-			<span class="kw">if let </span><span class="prelude-val">Some</span>((collator, pts)) =
-				&lt;AwardedPts&lt;T&gt;&gt;::iter_prefix(paid_for_round).drain().next()
+			<span class="kw">if let </span><span class="prelude-val">Some</span>((collator, state)) =
+				&lt;AtStake&lt;T&gt;&gt;::iter_prefix(paid_for_round).drain().next()
 			{
+				<span class="comment">// Take the awarded points for the collator
+				</span><span class="kw">let </span>pts = &lt;AwardedPts&lt;T&gt;&gt;::take(paid_for_round, <span class="kw-2">&amp;</span>collator);
+				<span class="kw">if </span>pts == <span class="number">0 </span>{
+					<span class="kw">return </span>(RewardPayment::Skipped, T::DbWeight::get().reads(<span class="number">1</span>));
+				}
+
 				<span class="kw">let </span><span class="kw-2">mut </span>extra_weight = Weight::zero();
 				<span class="kw">let </span>pct_due = Perbill::from_rational(pts, total_points);
 				<span class="kw">let </span>total_paid = pct_due * payout_info.total_staking_reward;
 				<span class="kw">let </span><span class="kw-2">mut </span>amt_due = total_paid;
-				<span class="comment">// Take the snapshot of block author and delegations
-
-				</span><span class="kw">let </span>state = &lt;AtStake&lt;T&gt;&gt;::take(paid_for_round, <span class="kw-2">&amp;</span>collator);
 
 				<span class="kw">let </span>num_delegators = state.delegations.len();
 				<span class="kw">if </span>state.delegations.is_empty() {
 					<span class="comment">// solo collator with no delegators
-					</span><span class="self">Self</span>::mint(amt_due, collator.clone());
-					extra_weight =
-						extra_weight.saturating_add(T::OnCollatorPayout::on_collator_payout(
+					</span>extra_weight = extra_weight
+						.saturating_add(T::PayoutCollatorReward::payout_collator_reward(
+							paid_for_round,
+							collator.clone(),
+							amt_due,
+						))
+						.saturating_add(T::OnCollatorPayout::on_collator_payout(
 							paid_for_round,
 							collator.clone(),
 							amt_due,
@@ -3479,9 +3510,13 @@
 					<span class="kw">let </span>commission = pct_due * collator_issuance;
 					amt_due = amt_due.saturating_sub(commission);
 					<span class="kw">let </span>collator_reward = (collator_pct * amt_due).saturating_add(commission);
-					<span class="self">Self</span>::mint(collator_reward, collator.clone());
-					extra_weight =
-						extra_weight.saturating_add(T::OnCollatorPayout::on_collator_payout(
+					extra_weight = extra_weight
+						.saturating_add(T::PayoutCollatorReward::payout_collator_reward(
+							paid_for_round,
+							collator.clone(),
+							collator_reward,
+						))
+						.saturating_add(T::OnCollatorPayout::on_collator_payout(
 							paid_for_round,
 							collator.clone(),
 							collator_reward,
@@ -3497,25 +3532,25 @@
 						<span class="kw">let </span>percent = Perbill::from_rational(amount, state.total);
 						<span class="kw">let </span>due = percent * amt_due;
 						<span class="kw">if </span>!due.is_zero() {
-							<span class="self">Self</span>::mint_and_compound(
+							extra_weight = extra_weight.saturating_add(<span class="self">Self</span>::mint_and_compound(
 								due,
 								auto_compound.clone(),
 								collator.clone(),
 								owner.clone(),
-							);
+							));
 						}
 					}
 				}
 
 				(
-					<span class="prelude-val">Some</span>((collator, total_paid)),
+					RewardPayment::Paid,
 					T::WeightInfo::pay_one_collator_reward(num_delegators <span class="kw">as </span>u32)
 						.saturating_add(extra_weight),
 				)
 			} <span class="kw">else </span>{
 				<span class="comment">// Note that we don&#39;t clean up storage here; it is cleaned up in
 				// handle_delayed_payouts()
-				</span>(<span class="prelude-val">None</span>, Weight::from_ref_time(<span class="number">0u64</span>.into()))
+				</span>(RewardPayment::Finished, Weight::from_ref_time(<span class="number">0u64</span>.into()))
 			}
 		}
 
@@ -3539,7 +3574,7 @@
 		}
 		<span class="doccomment">/// Best as in most cumulatively supported in terms of stake
 		/// Returns [collator_count, delegation_count, total staked]
-		</span><span class="kw">fn </span>select_top_candidates(now: RoundIndex) -&gt; (u32, u32, BalanceOf&lt;T&gt;) {
+		</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>select_top_candidates(now: RoundIndex) -&gt; (Weight, u32, u32, BalanceOf&lt;T&gt;) {
 			<span class="kw">let </span>(<span class="kw-2">mut </span>collator_count, <span class="kw-2">mut </span>delegation_count, <span class="kw-2">mut </span>total) =
 				(<span class="number">0u32</span>, <span class="number">0u32</span>, BalanceOf::&lt;T&gt;::zero());
 			<span class="comment">// choose the top TotalSelected qualified candidates, ordered by stake
@@ -3569,7 +3604,8 @@
 						total_exposed_amount: <span class="kw-2">*</span>snapshot_total,
 					})
 				}
-				<span class="kw">return </span>(collator_count, delegation_count, total);
+				<span class="kw">let </span>weight = T::WeightInfo::select_top_candidates(<span class="number">0</span>, <span class="number">0</span>);
+				<span class="kw">return </span>(weight, collator_count, delegation_count, total);
 			}
 
 			<span class="comment">// snapshot exposure for round for weighting reward distribution
@@ -3616,7 +3652,10 @@
 			}
 			<span class="comment">// insert canonical collator set
 			</span>&lt;SelectedCandidates&lt;T&gt;&gt;::put(collators);
-			(collator_count, delegation_count, total)
+
+			<span class="kw">let </span>avg_delegator_count = delegation_count.checked_div(collator_count).unwrap_or(<span class="number">0</span>);
+			<span class="kw">let </span>weight = T::WeightInfo::select_top_candidates(collator_count, avg_delegator_count);
+			(weight, collator_count, delegation_count, total)
 		}
 
 		<span class="doccomment">/// Apply the delegator intent for revoke and decrease in order to build the
@@ -3628,7 +3667,7 @@
 		/// - else, do nothing
 		///
 		/// The intended bond amounts will be used while calculating rewards.
-		</span><span class="kw">fn </span>get_rewardable_delegators(collator: <span class="kw-2">&amp;</span>T::AccountId) -&gt; CountedDelegations&lt;T&gt; {
+		</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_rewardable_delegators(collator: <span class="kw-2">&amp;</span>T::AccountId) -&gt; CountedDelegations&lt;T&gt; {
 			<span class="kw">let </span>requests = &lt;DelegationScheduledRequests&lt;T&gt;&gt;::get(collator)
 				.into_iter()
 				.map(|x| (x.delegator, x.action))
@@ -3642,20 +3681,10 @@
 					bond.amount = <span class="kw">match </span>requests.get(<span class="kw-2">&amp;</span>bond.owner) {
 						<span class="prelude-val">None </span>=&gt; bond.amount,
 						<span class="prelude-val">Some</span>(DelegationAction::Revoke(<span class="kw">_</span>)) =&gt; {
-							<span class="macro">log::warn!</span>(
-								<span class="string">&quot;reward for delegator &#39;{:?}&#39; set to zero due to pending \
-								revoke request&quot;</span>,
-								bond.owner
-							);
 							uncounted_stake = uncounted_stake.saturating_add(bond.amount);
 							BalanceOf::&lt;T&gt;::zero()
 						}
 						<span class="prelude-val">Some</span>(DelegationAction::Decrease(amount)) =&gt; {
-							<span class="macro">log::warn!</span>(
-								<span class="string">&quot;reward for delegator &#39;{:?}&#39; reduced by set amount due to pending \
-								decrease request&quot;</span>,
-								bond.owner
-							);
 							uncounted_stake = uncounted_stake.saturating_add(<span class="kw-2">*</span>amount);
 							bond.amount.saturating_sub(<span class="kw-2">*</span>amount)
 						}
@@ -3689,7 +3718,7 @@
 		}
 
 		<span class="doccomment">/// Mint a specified reward amount to the beneficiary account. Emits the [Rewarded] event.
-		</span><span class="kw">fn </span>mint(amt: BalanceOf&lt;T&gt;, to: T::AccountId) {
+		</span><span class="kw">pub fn </span>mint(amt: BalanceOf&lt;T&gt;, to: T::AccountId) {
 			<span class="kw">if let </span><span class="prelude-val">Ok</span>(amount_transferred) = T::Currency::deposit_into_existing(<span class="kw-2">&amp;</span>to, amt) {
 				<span class="self">Self</span>::deposit_event(Event::Rewarded {
 					account: to.clone(),
@@ -3698,16 +3727,32 @@
 			}
 		}
 
+		<span class="doccomment">/// Mint a specified reward amount to the collator&#39;s account. Emits the [Rewarded] event.
+		</span><span class="kw">pub fn </span>mint_collator_reward(
+			_paid_for_round: RoundIndex,
+			collator_id: T::AccountId,
+			amt: BalanceOf&lt;T&gt;,
+		) -&gt; Weight {
+			<span class="kw">if let </span><span class="prelude-val">Ok</span>(amount_transferred) = T::Currency::deposit_into_existing(<span class="kw-2">&amp;</span>collator_id, amt) {
+				<span class="self">Self</span>::deposit_event(Event::Rewarded {
+					account: collator_id.clone(),
+					rewards: amount_transferred.peek(),
+				});
+			}
+			T::WeightInfo::mint_collator_reward()
+		}
+
 		<span class="doccomment">/// Mint and compound delegation rewards. The function mints the amount towards the
 		/// delegator and tries to compound a specified percent of it back towards the delegation.
 		/// If a scheduled delegation revoke exists, then the amount is only minted, and nothing is
 		/// compounded. Emits the [Compounded] event.
-		</span><span class="kw">fn </span>mint_and_compound(
+		</span><span class="kw">pub fn </span>mint_and_compound(
 			amt: BalanceOf&lt;T&gt;,
 			compound_percent: Percent,
 			candidate: T::AccountId,
 			delegator: T::AccountId,
-		) {
+		) -&gt; Weight {
+			<span class="kw">let </span><span class="kw-2">mut </span>weight = T::WeightInfo::mint_collator_reward();
 			<span class="kw">if let </span><span class="prelude-val">Ok</span>(amount_transferred) =
 				T::Currency::deposit_into_existing(<span class="kw-2">&amp;</span>delegator, amt.clone())
 			{
@@ -3718,7 +3763,7 @@
 
 				<span class="kw">let </span>compound_amount = compound_percent.mul_ceil(amount_transferred.peek());
 				<span class="kw">if </span>compound_amount.is_zero() {
-					<span class="kw">return</span>;
+					<span class="kw">return </span>weight;
 				}
 
 				<span class="kw">if let </span><span class="prelude-val">Err</span>(err) = <span class="self">Self</span>::delegation_bond_more_without_event(
@@ -3726,14 +3771,15 @@
 					candidate.clone(),
 					compound_amount.clone(),
 				) {
-					<span class="macro">log::error!</span>(
-								<span class="string">&quot;Error compounding staking reward towards candidate &#39;{:?}&#39; for delegator &#39;{:?}&#39;: {:?}&quot;</span>,
+					<span class="macro">log::debug!</span>(
+								<span class="string">&quot;skipped compounding staking reward towards candidate &#39;{:?}&#39; for delegator &#39;{:?}&#39;: {:?}&quot;</span>,
 								candidate,
 								delegator,
 								err
 							);
-					<span class="kw">return</span>;
+					<span class="kw">return </span>weight;
 				};
+				weight = weight.saturating_add(T::WeightInfo::delegator_bond_more());
 
 				Pallet::&lt;T&gt;::deposit_event(Event::Compounded {
 					delegator,
@@ -3741,6 +3787,8 @@
 					amount: compound_amount.clone(),
 				});
 			};
+
+			weight
 		}
 	}
 

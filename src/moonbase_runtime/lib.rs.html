@@ -1536,6 +1536,8 @@
 <span id="1536">1536</span>
 <span id="1537">1537</span>
 <span id="1538">1538</span>
+<span id="1539">1539</span>
+<span id="1540">1540</span>
 </pre><pre class="rust"><code><span class="comment">// Copyright 2019-2022 PureStake Inc.
 // This file is part of Moonbeam.
 
@@ -1713,7 +1715,7 @@
 	spec_name: <span class="macro">create_runtime_str!</span>(<span class="string">&quot;moonbase&quot;</span>),
 	impl_name: <span class="macro">create_runtime_str!</span>(<span class="string">&quot;moonbase&quot;</span>),
 	authoring_version: <span class="number">4</span>,
-	spec_version: <span class="number">1900</span>,
+	spec_version: <span class="number">2000</span>,
 	impl_version: <span class="number">0</span>,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: <span class="number">2</span>,
@@ -2172,20 +2174,28 @@
 
 <span class="kw">impl </span>parachain_info::Config <span class="kw">for </span>Runtime {}
 
-<span class="kw">pub struct </span>OnCollatorPayout;
-<span class="kw">impl </span>pallet_parachain_staking::OnCollatorPayout&lt;AccountId, Balance&gt; <span class="kw">for </span>OnCollatorPayout {
-	<span class="kw">fn </span>on_collator_payout(
-		for_round: pallet_parachain_staking::RoundIndex,
-		collator_id: AccountId,
-		amount: Balance,
-	) -&gt; Weight {
-		MoonbeamOrbiters::distribute_rewards(for_round, collator_id, amount)
-	}
-}
 <span class="kw">pub struct </span>OnNewRound;
 <span class="kw">impl </span>pallet_parachain_staking::OnNewRound <span class="kw">for </span>OnNewRound {
 	<span class="kw">fn </span>on_new_round(round_index: pallet_parachain_staking::RoundIndex) -&gt; Weight {
 		MoonbeamOrbiters::on_new_round(round_index)
+	}
+}
+<span class="kw">pub struct </span>PayoutCollatorOrOrbiterReward;
+<span class="kw">impl </span>pallet_parachain_staking::PayoutCollatorReward&lt;Runtime&gt; <span class="kw">for </span>PayoutCollatorOrOrbiterReward {
+	<span class="kw">fn </span>payout_collator_reward(
+		for_round: pallet_parachain_staking::RoundIndex,
+		collator_id: AccountId,
+		amount: Balance,
+	) -&gt; Weight {
+		<span class="kw">let </span>extra_weight = <span class="kw">if </span>MoonbeamOrbiters::is_orbiter(for_round, collator_id) {
+			MoonbeamOrbiters::distribute_rewards(for_round, collator_id, amount)
+		} <span class="kw">else </span>{
+			ParachainStaking::mint_collator_reward(for_round, collator_id, amount)
+		};
+
+		&lt;Runtime <span class="kw">as </span>frame_system::Config&gt;::DbWeight::get()
+			.reads(<span class="number">1</span>)
+			.saturating_add(extra_weight)
 	}
 }
 
@@ -2224,7 +2234,8 @@
 	<span class="doccomment">/// Minimum stake required to be reserved to be a delegator
 	</span><span class="kw">type </span>MinDelegatorStk = ConstU128&lt;{ <span class="number">1 </span>* currency::UNIT * currency::SUPPLY_FACTOR }&gt;;
 	<span class="kw">type </span>BlockAuthor = AuthorInherent;
-	<span class="kw">type </span>OnCollatorPayout = OnCollatorPayout;
+	<span class="kw">type </span>OnCollatorPayout = ();
+	<span class="kw">type </span>PayoutCollatorReward = PayoutCollatorOrOrbiterReward;
 	<span class="kw">type </span>OnNewRound = OnNewRound;
 	<span class="kw">type </span>WeightInfo = pallet_parachain_staking::weights::SubstrateWeight&lt;Runtime&gt;;
 }
@@ -2498,8 +2509,7 @@
 
 <span class="kw">impl </span>OnInitialize&lt;BlockNumber&gt; <span class="kw">for </span>MaintenanceHooks {
 	<span class="kw">fn </span>on_initialize(n: BlockNumber) -&gt; Weight {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::on_initialize(n)
+		AllPalletsWithSystem::on_initialize(n)
 	}
 }
 
@@ -2517,33 +2527,28 @@
 
 <span class="kw">impl </span>OnRuntimeUpgrade <span class="kw">for </span>MaintenanceHooks {
 	<span class="kw">fn </span>on_runtime_upgrade() -&gt; Weight {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::on_runtime_upgrade()
+		AllPalletsWithSystem::on_runtime_upgrade()
 	}
 	<span class="attribute">#[cfg(feature = <span class="string">&quot;try-runtime&quot;</span>)]
 	</span><span class="kw">fn </span>pre_upgrade() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::pre_upgrade()
+		AllPalletsWithSystem::pre_upgrade()
 	}
 
 	<span class="attribute">#[cfg(feature = <span class="string">&quot;try-runtime&quot;</span>)]
 	</span><span class="kw">fn </span>post_upgrade() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::post_upgrade()
+		AllPalletsWithSystem::post_upgrade()
 	}
 }
 
 <span class="kw">impl </span>OnFinalize&lt;BlockNumber&gt; <span class="kw">for </span>MaintenanceHooks {
 	<span class="kw">fn </span>on_finalize(n: BlockNumber) {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::on_finalize(n)
+		AllPalletsWithSystem::on_finalize(n)
 	}
 }
 
 <span class="kw">impl </span>OffchainWorker&lt;BlockNumber&gt; <span class="kw">for </span>MaintenanceHooks {
 	<span class="kw">fn </span>offchain_worker(n: BlockNumber) {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::offchain_worker(n)
+		AllPalletsWithSystem::offchain_worker(n)
 	}
 }
 
@@ -2556,10 +2561,9 @@
 	<span class="kw">type </span>XcmExecutionManager = XcmExecutionManager;
 	<span class="kw">type </span>NormalDmpHandler = DmpQueue;
 	<span class="kw">type </span>MaintenanceDmpHandler = MaintenanceDmpHandler;
-	<span class="comment">// We use AllPalletsReversedWithSystemFirst because we dont want to change the hooks in normal
+	<span class="comment">// We use AllPalletsWithSystem because we dont want to change the hooks in normal
 	// operation
-	</span><span class="attribute">#[allow(deprecated)]
-	</span><span class="kw">type </span>NormalExecutiveHooks = AllPalletsReversedWithSystemFirst;
+	</span><span class="kw">type </span>NormalExecutiveHooks = AllPalletsWithSystem;
 	<span class="kw">type </span>MaintenanceExecutiveHooks = MaintenanceHooks;
 }
 

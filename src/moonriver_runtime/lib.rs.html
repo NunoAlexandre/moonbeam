@@ -1553,6 +1553,28 @@
 <span id="1553">1553</span>
 <span id="1554">1554</span>
 <span id="1555">1555</span>
+<span id="1556">1556</span>
+<span id="1557">1557</span>
+<span id="1558">1558</span>
+<span id="1559">1559</span>
+<span id="1560">1560</span>
+<span id="1561">1561</span>
+<span id="1562">1562</span>
+<span id="1563">1563</span>
+<span id="1564">1564</span>
+<span id="1565">1565</span>
+<span id="1566">1566</span>
+<span id="1567">1567</span>
+<span id="1568">1568</span>
+<span id="1569">1569</span>
+<span id="1570">1570</span>
+<span id="1571">1571</span>
+<span id="1572">1572</span>
+<span id="1573">1573</span>
+<span id="1574">1574</span>
+<span id="1575">1575</span>
+<span id="1576">1576</span>
+<span id="1577">1577</span>
 </pre><pre class="rust"><code><span class="comment">// Copyright 2019-2022 PureStake Inc.
 // This file is part of Moonbeam.
 
@@ -1722,7 +1744,7 @@
 	spec_name: <span class="macro">create_runtime_str!</span>(<span class="string">&quot;moonriver&quot;</span>),
 	impl_name: <span class="macro">create_runtime_str!</span>(<span class="string">&quot;moonriver&quot;</span>),
 	authoring_version: <span class="number">3</span>,
-	spec_version: <span class="number">1900</span>,
+	spec_version: <span class="number">2000</span>,
 	impl_version: <span class="number">0</span>,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: <span class="number">2</span>,
@@ -1739,13 +1761,33 @@
 }
 
 <span class="kw">const </span>NORMAL_DISPATCH_RATIO: Perbill = Perbill::from_percent(<span class="number">75</span>);
+<span class="kw">const </span>NORMAL_WEIGHT: Weight = MAXIMUM_BLOCK_WEIGHT.saturating_mul(<span class="number">3</span>).saturating_div(<span class="number">4</span>);
+<span class="comment">// Here we assume Ethereum&#39;s base fee of 21000 gas and convert to weight, but we
+// subtract roughly the cost of a balance transfer from it (about 1/3 the cost)
+// and some cost to account for per-byte-fee.
+// TODO: we should use benchmarking&#39;s overhead feature to measure this
+</span><span class="kw">pub const </span>EXTRINSIC_BASE_WEIGHT: Weight = Weight::from_ref_time(<span class="number">10000 </span>* WEIGHT_PER_GAS);
+
+<span class="kw">pub struct </span>RuntimeBlockWeights;
+<span class="kw">impl </span>Get&lt;frame_system::limits::BlockWeights&gt; <span class="kw">for </span>RuntimeBlockWeights {
+	<span class="kw">fn </span>get() -&gt; frame_system::limits::BlockWeights {
+		frame_system::limits::BlockWeights::builder()
+			.for_class(DispatchClass::Normal, |weights| {
+				weights.base_extrinsic = EXTRINSIC_BASE_WEIGHT;
+				weights.max_total = NORMAL_WEIGHT.into();
+			})
+			.for_class(DispatchClass::Operational, |weights| {
+				weights.max_total = MAXIMUM_BLOCK_WEIGHT.into();
+				weights.reserved = (MAXIMUM_BLOCK_WEIGHT - NORMAL_WEIGHT).into();
+			})
+			.avg_block_initialization(Perbill::from_percent(<span class="number">10</span>))
+			.build()
+			.expect(<span class="string">&quot;Provided BlockWeight definitions are valid, qed&quot;</span>)
+	}
+}
 
 <span class="macro">parameter_types! </span>{
 	<span class="kw">pub const </span>Version: RuntimeVersion = VERSION;
-	<span class="doccomment">/// We allow for one half second of compute with a 6 second average block time.
-	/// These values are dictated by Polkadot for the parachain.
-	</span><span class="kw">pub </span>BlockWeights: frame_system::limits::BlockWeights = frame_system::limits::BlockWeights
-		::with_sensible_defaults(MAXIMUM_BLOCK_WEIGHT, NORMAL_DISPATCH_RATIO);
 	<span class="doccomment">/// We allow for 5 MB blocks.
 	</span><span class="kw">pub </span>BlockLength: frame_system::limits::BlockLength = frame_system::limits::BlockLength
 		::max_with_normal_ratio(<span class="number">5 </span>* <span class="number">1024 </span>* <span class="number">1024</span>, NORMAL_DISPATCH_RATIO);
@@ -1775,7 +1817,7 @@
 	<span class="doccomment">/// Maximum number of block number to block hash mappings to keep (oldest pruned first).
 	</span><span class="kw">type </span>BlockHashCount = ConstU32&lt;<span class="number">256</span>&gt;;
 	<span class="doccomment">/// Maximum weight of each block. With a default weight system of 1byte == 1weight, 4mb is ok.
-	</span><span class="kw">type </span>BlockWeights = BlockWeights;
+	</span><span class="kw">type </span>BlockWeights = RuntimeBlockWeights;
 	<span class="doccomment">/// Maximum size of all encoded transactions (in bytes) that are allowed in one block.
 	</span><span class="kw">type </span>BlockLength = BlockLength;
 	<span class="doccomment">/// Runtime version.
@@ -1987,7 +2029,7 @@
 }
 
 <span class="macro">parameter_types! </span>{
-	<span class="kw">pub </span>MaximumSchedulerWeight: Weight = NORMAL_DISPATCH_RATIO * BlockWeights::get().max_block;
+	<span class="kw">pub </span>MaximumSchedulerWeight: Weight = NORMAL_DISPATCH_RATIO * RuntimeBlockWeights::get().max_block;
 }
 
 <span class="kw">impl </span>pallet_scheduler::Config <span class="kw">for </span>Runtime {
@@ -2247,20 +2289,28 @@
 
 <span class="kw">impl </span>parachain_info::Config <span class="kw">for </span>Runtime {}
 
-<span class="kw">pub struct </span>OnCollatorPayout;
-<span class="kw">impl </span>pallet_parachain_staking::OnCollatorPayout&lt;AccountId, Balance&gt; <span class="kw">for </span>OnCollatorPayout {
-	<span class="kw">fn </span>on_collator_payout(
-		for_round: pallet_parachain_staking::RoundIndex,
-		collator_id: AccountId,
-		amount: Balance,
-	) -&gt; Weight {
-		MoonbeamOrbiters::distribute_rewards(for_round, collator_id, amount)
-	}
-}
 <span class="kw">pub struct </span>OnNewRound;
 <span class="kw">impl </span>pallet_parachain_staking::OnNewRound <span class="kw">for </span>OnNewRound {
 	<span class="kw">fn </span>on_new_round(round_index: pallet_parachain_staking::RoundIndex) -&gt; Weight {
 		MoonbeamOrbiters::on_new_round(round_index)
+	}
+}
+<span class="kw">pub struct </span>PayoutCollatorOrOrbiterReward;
+<span class="kw">impl </span>pallet_parachain_staking::PayoutCollatorReward&lt;Runtime&gt; <span class="kw">for </span>PayoutCollatorOrOrbiterReward {
+	<span class="kw">fn </span>payout_collator_reward(
+		for_round: pallet_parachain_staking::RoundIndex,
+		collator_id: AccountId,
+		amount: Balance,
+	) -&gt; Weight {
+		<span class="kw">let </span>extra_weight = <span class="kw">if </span>MoonbeamOrbiters::is_orbiter(for_round, collator_id) {
+			MoonbeamOrbiters::distribute_rewards(for_round, collator_id, amount)
+		} <span class="kw">else </span>{
+			ParachainStaking::mint_collator_reward(for_round, collator_id, amount)
+		};
+
+		&lt;Runtime <span class="kw">as </span>frame_system::Config&gt;::DbWeight::get()
+			.reads(<span class="number">1</span>)
+			.saturating_add(extra_weight)
 	}
 }
 
@@ -2299,7 +2349,8 @@
 	<span class="doccomment">/// Minimum stake required to be reserved to be a delegator
 	</span><span class="kw">type </span>MinDelegatorStk = ConstU128&lt;{ <span class="number">5 </span>* currency::MOVR * currency::SUPPLY_FACTOR }&gt;;
 	<span class="kw">type </span>BlockAuthor = AuthorInherent;
-	<span class="kw">type </span>OnCollatorPayout = OnCollatorPayout;
+	<span class="kw">type </span>OnCollatorPayout = ();
+	<span class="kw">type </span>PayoutCollatorReward = PayoutCollatorOrOrbiterReward;
 	<span class="kw">type </span>OnNewRound = OnNewRound;
 	<span class="kw">type </span>WeightInfo = pallet_parachain_staking::weights::SubstrateWeight&lt;Runtime&gt;;
 }
@@ -2570,8 +2621,7 @@
 
 <span class="kw">impl </span>OnInitialize&lt;BlockNumber&gt; <span class="kw">for </span>MaintenanceHooks {
 	<span class="kw">fn </span>on_initialize(n: BlockNumber) -&gt; Weight {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::on_initialize(n)
+		AllPalletsWithSystem::on_initialize(n)
 	}
 }
 
@@ -2589,33 +2639,28 @@
 
 <span class="kw">impl </span>OnRuntimeUpgrade <span class="kw">for </span>MaintenanceHooks {
 	<span class="kw">fn </span>on_runtime_upgrade() -&gt; Weight {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::on_runtime_upgrade()
+		AllPalletsWithSystem::on_runtime_upgrade()
 	}
 	<span class="attribute">#[cfg(feature = <span class="string">&quot;try-runtime&quot;</span>)]
 	</span><span class="kw">fn </span>pre_upgrade() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::pre_upgrade()
+		AllPalletsWithSystem::pre_upgrade()
 	}
 
 	<span class="attribute">#[cfg(feature = <span class="string">&quot;try-runtime&quot;</span>)]
 	</span><span class="kw">fn </span>post_upgrade() -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::post_upgrade()
+		AllPalletsWithSystem::post_upgrade()
 	}
 }
 
 <span class="kw">impl </span>OnFinalize&lt;BlockNumber&gt; <span class="kw">for </span>MaintenanceHooks {
 	<span class="kw">fn </span>on_finalize(n: BlockNumber) {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::on_finalize(n)
+		AllPalletsWithSystem::on_finalize(n)
 	}
 }
 
 <span class="kw">impl </span>OffchainWorker&lt;BlockNumber&gt; <span class="kw">for </span>MaintenanceHooks {
 	<span class="kw">fn </span>offchain_worker(n: BlockNumber) {
-		<span class="attribute">#[allow(deprecated)]
-		</span>AllPalletsReversedWithSystemFirst::offchain_worker(n)
+		AllPalletsWithSystem::offchain_worker(n)
 	}
 }
 
@@ -2628,10 +2673,9 @@
 	<span class="kw">type </span>XcmExecutionManager = XcmExecutionManager;
 	<span class="kw">type </span>NormalDmpHandler = DmpQueue;
 	<span class="kw">type </span>MaintenanceDmpHandler = MaintenanceDmpHandler;
-	<span class="comment">// We use AllPalletsReversedWithSystemFirst because we dont want to change the hooks in normal
+	<span class="comment">// We use AllPalletsWithSystem because we dont want to change the hooks in normal
 	// operation
-	</span><span class="attribute">#[allow(deprecated)]
-	</span><span class="kw">type </span>NormalExecutiveHooks = AllPalletsReversedWithSystemFirst;
+	</span><span class="kw">type </span>NormalExecutiveHooks = AllPalletsWithSystem;
 	<span class="kw">type </span>MaintenanceExecutiveHooks = MaintenanceHooks;
 }
 
