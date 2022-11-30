@@ -7,7 +7,7 @@
 ### Notes
 
 - The `master` branch must refer to frontier `paritytech/frontier/master` or
-  `purestake/frontier/vX.X-hotfixes`
+  `NunoAlexandre/frontier/vX.X-hotfixes`
 
 ### Pre-Release Checklist
 
