@@ -210,6 +210,8 @@ substrate-test-client = { git = "https://github.com/paritytech//substrate", rev 
 substrate-test-utils = { git = "https://github.com/paritytech//substrate", rev = "cc370aa61e15c18d23a2f686b812fd576a630afe" }
 substrate-test-utils-derive = { git = "https://github.com/paritytech//substrate", rev = "cc370aa61e15c18d23a2f686b812fd576a630afe" }
 try-runtime-cli = { git = "https://github.com/paritytech//substrate", rev = "cc370aa61e15c18d23a2f686b812fd576a630afe" }
+substrate-test-runtime = { git = "https://github.com/paritytech//substrate", rev = "cc370aa61e15c18d23a2f686b812fd576a630afe" }
+pallet-randomness-collective-flip = { git = "https://github.com/paritytech//substrate", rev = "cc370aa61e15c18d23a2f686b812fd576a630afe" }
 
 [patch."https://github.com/PureStake/polkadot"]
 kusama-runtime = { git = "https://github.com/paritytech//polkadot", rev = "94078b44fb6c9767bf60ffcaaa3be40681be5a76" }
@@ -276,3 +278,21 @@ orml-asset-registry = { git = "https://github.com/open-web3-stack/open-runtime-m
 orml-tokens = { git = "https://github.com/open-web3-stack/open-runtime-module-library", default-features = false, optional = true, branch = "polkadot-v0.9.29" }
 orml-xcm-support = { git = "https://github.com/open-web3-stack/open-runtime-module-library", default-features = false, branch = "polkadot-v0.9.29" }
 orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-library", default-features = false, optional = true, branch = "polkadot-v0.9.29" }
+orml-xtokens = { git = "https://github.com/open-web3-stack/open-runtime-module-library", default-features = false, optional = true, branch = "polkadot-v0.9.29" }
+
+[patch."https://github.com/PureStake/frontier"]
+fp-evm = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+fc-consensus = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+fc-db = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+fp-ethereum = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+fp-rpc = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+fp-self-contained = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+pallet-base-fee = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+pallet-ethereum = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false, features = [ "forbid-evm-reentrancy" ] }
+pallet-evm = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false, features = [ "forbid-evm-reentrancy" ] }
+pallet-evm-precompile-blake2 = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+pallet-evm-precompile-bn128 = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+pallet-evm-precompile-dispatch = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+pallet-evm-precompile-modexp = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+pallet-evm-precompile-sha3fips = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
+pallet-evm-precompile-simple = { git = "https://github.com/NunoAlexandre/frontier", branch = "unfork-v0.9.29", default-features = false }
