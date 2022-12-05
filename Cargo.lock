@@ -14898,16 +14898,6 @@ version = "0.9.29"
 source = "git+https://github.com/paritytech//polkadot?rev=94078b44fb6c9767bf60ffcaaa3be40681be5a76#94078b44fb6c9767bf60ffcaaa3be40681be5a76"
 
 [[patch.unused]]
-name = "orml-asset-registry"
-version = "0.4.1-dev"
-source = "git+https://github.com/open-web3-stack/open-runtime-module-library?branch=polkadot-v0.9.29#44fda4432b71f49ee59a650cf4775db895ab97af"
-
-[[patch.unused]]
-name = "orml-tokens"
-version = "0.4.1-dev"
-source = "git+https://github.com/open-web3-stack/open-runtime-module-library?branch=polkadot-v0.9.29#44fda4432b71f49ee59a650cf4775db895ab97af"
-
-[[patch.unused]]
 name = "polkadot-test-runtime"
 version = "0.9.29"
 source = "git+https://github.com/paritytech//polkadot?rev=94078b44fb6c9767bf60ffcaaa3be40681be5a76#94078b44fb6c9767bf60ffcaaa3be40681be5a76"
@@ -14921,3 +14911,13 @@ source = "git+https://github.com/paritytech//polkadot?rev=94078b44fb6c9767bf60ff
 name = "test-runtime-constants"
 version = "0.9.29"
 source = "git+https://github.com/paritytech//polkadot?rev=94078b44fb6c9767bf60ffcaaa3be40681be5a76#94078b44fb6c9767bf60ffcaaa3be40681be5a76"
+
+[[patch.unused]]
+name = "orml-asset-registry"
+version = "0.4.1-dev"
+source = "git+https://github.com/open-web3-stack/open-runtime-module-library?branch=polkadot-v0.9.29#44fda4432b71f49ee59a650cf4775db895ab97af"
+
+[[patch.unused]]
+name = "orml-tokens"
+version = "0.4.1-dev"
+source = "git+https://github.com/open-web3-stack/open-runtime-module-library?branch=polkadot-v0.9.29#44fda4432b71f49ee59a650cf4775db895ab97af"

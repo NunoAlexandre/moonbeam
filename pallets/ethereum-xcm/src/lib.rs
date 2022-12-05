@@ -141,7 +141,7 @@ pub mod pallet {
 				EthereumXcmTransaction::V1(v1_tx) =>  v1_tx.gas_limit.unique_saturated_into(),
 				EthereumXcmTransaction::V2(v2_tx) =>  v2_tx.gas_limit.unique_saturated_into()
 			}
-		}).saturating_add(T::DbWeight::get().reads(1)))]
+		}, false).saturating_add(T::DbWeight::get().reads(1)))]
 		pub fn transact(
 			origin: OriginFor<T>,
 			xcm_transaction: EthereumXcmTransaction,
@@ -167,7 +167,7 @@ pub mod pallet {
 				EthereumXcmTransaction::V1(v1_tx) =>  v1_tx.gas_limit.unique_saturated_into(),
 				EthereumXcmTransaction::V2(v2_tx) =>  v2_tx.gas_limit.unique_saturated_into()
 			}
-		}).saturating_add(T::DbWeight::get().reads(2)))]
+		}, false).saturating_add(T::DbWeight::get().reads(2)))]
 		pub fn transact_through_proxy(
 			origin: OriginFor<T>,
 			transact_as: H160,
